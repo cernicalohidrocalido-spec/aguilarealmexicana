@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fichas Descargables · Águila Real Mexicana</title>
+<meta name="description" content="Fichas técnicas del Águila real listas para imprimir o guardar como PDF. Uso educativo libre.">
+<link rel="canonical" href="https://aguilarealmexicana.org/fichas.html">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: Georgia, serif; font-size: 11pt; color: #1a1a1a; background:#f5f0e8; }
+  .page-wrap { max-width: 800px; margin: 0 auto; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+  .ficha-header {
+    color: #fff; padding: 2.2rem 2.5rem 1.8rem;
+    display: flex; align-items: flex-start; gap: 1.2rem;
+  }
+  .ficha-icono { font-size: 3rem; line-height: 1; flex-shrink:0; }
+  .ficha-header-txt h1 {
+    font-family: Poppins, sans-serif; font-size: 1.9rem;
+    font-weight: 800; line-height: 1.15; margin-bottom: 0.3rem;
+  }
+  .ficha-header-txt .subtitulo { font-style: italic; font-size: 0.95rem; opacity: 0.85; }
+  .ficha-header-txt .org {
+    font-size: 0.78rem; opacity: 0.7; margin-top: 0.5rem;
+    font-family: Poppins, sans-serif;
+  }
+  .ficha-body { padding: 2rem 2.5rem; }
+  .ficha-seccion { margin-bottom: 1.6rem; }
+  .ficha-seccion h2 {
+    font-family: Poppins, sans-serif; font-size: 1.05rem;
+    font-weight: 700;
+    border-bottom: 2px solid currentColor;
+    padding-bottom: 0.3rem; margin-bottom: 0.8rem;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .ficha-seccion p { line-height: 1.75; margin-bottom: 0.6rem; }
+  .ficha-seccion ul { padding-left: 1.3rem; }
+  .ficha-seccion li { line-height: 1.75; margin-bottom: 0.3rem; }
+  table.datos { width: 100%; border-collapse: collapse; margin-bottom: 0.8rem; font-size: 10.5pt; }
+  table.datos th {
+    color: #fff;
+    font-family: Poppins, sans-serif; font-size: 0.78rem;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 0.5rem 0.8rem; text-align: left;
+  }
+  table.datos td { padding: 0.45rem 0.8rem; border-bottom: 1px solid #e8e0d0; }
+  table.datos tr:nth-child(even) td { background: #faf7f2; }
+  .alerta {
+    background: #fff3cd; border-left: 4px solid #f0a500;
+    padding: 0.8rem 1rem; margin-bottom: 1.2rem;
+    font-size: 10pt; line-height: 1.6;
+  }
+  .alerta-roja { background: #fdecea; border-color: #c0392b; }
+  .col2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem; }
+  .ficha-footer {
+    background: #2c1a0e; color: rgba(255,255,255,0.75);
+    padding: 1rem 2.5rem; font-size: 8.5pt;
+    font-family: Poppins, sans-serif;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 0.5rem;
+  }
+  .ficha-footer a { color: #D4A23A; text-decoration: none; }
+  .btn-imprimir {
+    display: inline-block;
+    margin: 1.5rem auto 0;
+    color: #fff;
+    font-family: Poppins, sans-serif; font-weight: 700;
+    font-size: 0.9rem; padding: 0.75rem 2rem;
+    border: none; border-radius: 8px; cursor: pointer;
+    text-decoration: none; text-align: center;
+  }
+  .btn-volver {
+    display: inline-block; margin: 1.5rem 2.5rem 0;
+    font-family: Poppins, sans-serif; font-size: 0.82rem;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+  /* Índice */
+  .idx-wrap { max-width:640px; margin:0 auto; padding:2rem 1.2rem; font-family:Poppins,sans-serif; }
+  .idx-wrap h1 { font-size:1.6rem; font-weight:800; color:#2c1a0e; margin-bottom:0.4rem; }
+  .idx-sub { font-size:0.9rem; color:#888; margin-bottom:2rem; }
+  .idx-item {
+    display:flex; align-items:center; gap:1rem; padding:1.1rem 1.4rem;
+    border:1px solid #e0d8cc; border-radius:8px; text-decoration:none; background:#fff;
+    margin-bottom:0.8rem; transition:box-shadow 0.2s;
+  }
+  .idx-item:hover { box-shadow:0 6px 18px rgba(0,0,0,0.1); }
+  @media (max-width: 700px) {
+    .col2 { grid-template-columns: 1fr; }
+    .ficha-header, .ficha-body, .ficha-footer { padding-left: 1.2rem; padding-right: 1.2rem; }
+    .ficha-header-txt h1 { font-size: 1.35rem; }
+    .btn-volver { margin-left: 1.2rem; }
+  }
+  @media print {
+    body { background: #fff; font-size: 10pt; }
+    .page-wrap { box-shadow: none; max-width: 100%; }
+    .btn-imprimir, .btn-volver, .no-print { display: none !important; }
+    .ficha-header, table.datos th, .ficha-footer {
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const FICHAS = {"identificacion": {"titulo": "Identificación del Águila Real", "subtitulo": "Aquila chrysaetos canadensis", "color": "#8B4513", "icono": "🦅", "contenido": "\n<div class=\"col2\">\n<div class=\"ficha-seccion\">\n<h2>Datos básicos</h2>\n<table class=\"datos\">\n<tr><th>Campo</th><th>Valor</th></tr>\n<tr><td>Nombre científico</td><td><em>Aquila chrysaetos canadensis</em></td></tr>\n<tr><td>Familia</td><td>Accipitridae</td></tr>\n<tr><td>Envergadura</td><td>180–240 cm</td></tr>\n<tr><td>Longitud</td><td>70–90 cm</td></tr>\n<tr><td>Peso hembra</td><td>3.6–6.7 kg</td></tr>\n<tr><td>Peso macho</td><td>2.8–4.6 kg</td></tr>\n<tr><td>Longevidad</td><td>Hasta 32 años (silvestre)</td></tr>\n<tr><td>Status IUCN</td><td>Preocupación menor (LC)</td></tr>\n<tr><td>Status México</td><td>En Peligro (P) — NOM-059</td></tr>\n</table>\n</div>\n<div class=\"ficha-seccion\">\n<h2>Distribución en México</h2>\n<p>Presente en <strong>13 estados</strong>, principalmente en el norte y centro-occidente: Chihuahua, Zacatecas, Sonora, Durango, Coahuila, San Luis Potosí, Jalisco, Aguascalientes, Guanajuato, Querétaro, Hidalgo, Puebla y Oaxaca.</p>\n<p>En 2025 se registraron <strong>184 parejas reproductivas</strong> en México (PACE Águila Real). Los principales bastiones son Chihuahua y Zacatecas.</p>\n</div>\n</div>\n\n<div class=\"ficha-seccion\">\n<h2>Características diagnósticas</h2>\n<ul>\n<li><strong>Nuca y nuca dorada:</strong> plumas lanceoladas doradas características que dan nombre a la especie (<em>chrysaetos</em> = águila dorada).</li>\n<li><strong>Tamaño:</strong> rapaz muy grande; en vuelo las alas son largas y anchas con dedos primarios separados como \"dedos\".</li>\n<li><strong>Cola:</strong> larga y redondeada, con bandas oscuras y claras en juveniles; grisácea uniforme en adultos.</li>\n<li><strong>Tarsos emplumados:</strong> plumas cubren el tarso completo hasta los dedos (carácter diagnóstico del género <em>Aquila</em>).</li>\n<li><strong>Cera y pico:</strong> cera amarilla brillante; pico gris-azulado, grande y muy curvado.</li>\n<li><strong>Vuelo:</strong> alas en ligera \"V\" (diedro positivo) al planear; diferencia clave con el Buitre Real que vuela con las alas más horizontales.</li>\n</ul>\n</div>\n\n<div class=\"alerta\">\n<strong>Confusión frecuente:</strong> El Águila real adulta puede confundirse con el Águila de Harris (<em>Parabuteo unicinctus</em>) o el Águila Negra (<em>Buteogallus anthracinus</em>). Los juveniles a menudo se confunden con el Aguililla Cola Roja o el Buitre Real. Revisa siempre la nuca dorada, el emplumado del tarso y la cola.\n</div>\n\n<div class=\"ficha-seccion\">\n<h2>Hábitat preferido en México</h2>\n<ul>\n<li>Sierras y cañones con acantilados rocosos para nidificación.</li>\n<li>Zonas áridas y semiáridas del Altiplano y Norte de México.</li>\n<li>Matorrales xerófilos, pastizales amacollados y bosques de encino-pino a media montaña.</li>\n<li>Evita bosques cerrados y zonas densamente urbanizadas.</li>\n</ul>\n</div>\n\n<p style=\"font-size:9pt;color:#999;margin-top:1rem;\">Fuente: Lozano Román, L.F. (2014). Guía de Identificación del Águila Real. CONANP/SIMEC; Katzner et al. (2020). Birds of the World.</p>\n"}, "plumajes": {"titulo": "Plumajes por Edad", "subtitulo": "Aquila chrysaetos — Desarrollo del plumaje", "color": "#1a4fa0", "icono": "🪶", "contenido": "\n<div class=\"alerta\">\nEl Águila real necesita <strong>4–5 años</strong> para alcanzar el plumaje adulto definitivo. Cada año muda parcialmente su plumaje según la Estrategia Básica Modificada.\n</div>\n\n<div class=\"ficha-seccion\">\n<h2>Secuencia de plumajes</h2>\n<table class=\"datos\">\n<tr><th>Edad</th><th>Cola</th><th>Vientre</th><th>Alas (superior)</th><th>Nuca</th></tr>\n<tr><td><strong>Polluelo (0–3 m)</strong></td><td>Blanca</td><td>Plumón blanco</td><td>Café oscuro</td><td>Sin dora</td></tr>\n<tr><td><strong>Juvenil (año 1)</strong></td><td>Blanca con banda terminal negra ancha</td><td>Café con manchas blancas</td><td>Mancha blanca en base de primarias</td><td>Dorada incipiente</td></tr>\n<tr><td><strong>Subadulto temprano (año 2–3)</strong></td><td>Barrada gris y negra; base blanca</td><td>Variable; manchas irregulares</td><td>Mancha blanca reducida</td><td>Dorada desarrollada</td></tr>\n<tr><td><strong>Subadulto tardío (año 4)</strong></td><td>Grisácea con banda subterminal</td><td>Café uniforme</td><td>Mancha blanca mínima</td><td>Dorada prominente</td></tr>\n<tr><td><strong>Adulto (año 5+)</strong></td><td>Gris uniforme, banda subterminal negra</td><td>Café oscuro uniforme</td><td>Sin mancha blanca</td><td>Oro brillante</td></tr>\n</table>\n</div>\n\n<div class=\"col2\">\n<div class=\"ficha-seccion\">\n<h2>Caracteres de vuelo por edad</h2>\n<ul>\n<li><strong>Juvenil:</strong> parches blancos grandes y nítidos en alas y cola — fácil identificación.</li>\n<li><strong>Subadulto:</strong> parches blancos irregulares; cola barrada; confunde a observadores.</li>\n<li><strong>Adulto:</strong> dorsal café oscuro uniforme; cobertoras superiores con tonos más claros; cola gris limpia.</li>\n</ul>\n</div>\n<div class=\"ficha-seccion\">\n<h2>Dimorfismo sexual</h2>\n<p>No hay diferencia de plumaje entre sexos. La hembra es notablemente <strong>más grande</strong> (hasta un 25% más pesada), lo que permite diferenciar a la pareja en campo cuando ambos individuos están juntos.</p>\n</div>\n</div>\n\n<div class=\"ficha-seccion\">\n<h2>Muda</h2>\n<p>La muda de plumas de vuelo es lenta y asincrónica; se requieren <strong>2–3 años</strong> para reemplazar un juego completo de rémiges. A diferencia de lo que se creía, la muda ocurre incluso en invierno. Las plumas de la nuca se renuevan anualmente manteniendo el color dorado característico.</p>\n</div>\n\n<p style=\"font-size:9pt;color:#999;margin-top:1rem;\">Fuente: Katzner et al. (2020). <em>Golden Eagle (Aquila chrysaetos)</em>. Birds of the World; Lozano Román, L.F. (2014). Guía de Identificación.</p>\n"}, "amenazas": {"titulo": "Amenazas y Conservación", "subtitulo": "Aquila chrysaetos en México", "color": "#8b1a1a", "icono": "⚠️", "contenido": "\n<div class=\"alerta alerta-roja\">\n<strong>Estado en México:</strong> En Peligro (P) bajo la NOM-059-SEMARNAT-2010. Se estiman <strong>menos de 200 parejas reproductivas</strong> activas en todo el país (2025). El 56% de las muertes documentadas son de origen humano.\n</div>\n\n<div class=\"ficha-seccion\">\n<h2>Principales amenazas</h2>\n<table class=\"datos\">\n<tr><th>Amenaza</th><th>Impacto estimado</th><th>Región más afectada</th></tr>\n<tr><td>Electrocución en tendidos eléctricos</td><td>Muy alto</td><td>Todo México</td></tr>\n<tr><td>Envenenamiento (plomo de munición)</td><td>Alto</td><td>Norte y Altiplano</td></tr>\n<tr><td>Persecución directa (ganaderos)</td><td>Alto</td><td>Norte y Occidente</td></tr>\n<tr><td>Pérdida y fragmentación de hábitat</td><td>Alto</td><td>Todo México</td></tr>\n<tr><td>Captura ilegal para cetrería</td><td>Moderado</td><td>Norte de México</td></tr>\n<tr><td>Colisión con aerogeneradores</td><td>Creciente</td><td>Jalisco, Oaxaca, Tamaulipas</td></tr>\n<tr><td>Perturbación en nidos activos</td><td>Moderado</td><td>Localizado</td></tr>\n<tr><td>Uso de venenos para control de predadores</td><td>Moderado</td><td>Chihuahua, Sonora</td></tr>\n</table>\n</div>\n\n<div class=\"col2\">\n<div class=\"ficha-seccion\">\n<h2>El problema del plomo</h2>\n<p>Las águilas consumen vísceras y restos de animales cazados que contienen fragmentos de munición de plomo. Un solo fragmento puede causar intoxicación letal. La transición a munición sin plomo es la solución más efectiva documentada internacionalmente.</p>\n</div>\n<div class=\"ficha-seccion\">\n<h2>Medidas de conservación</h2>\n<ul>\n<li>PACE Águila Real (CONANP/SEMARNAT)</li>\n<li>Monitoreo nacional de parejas reproductivas</li>\n<li>Acuerdos con ejidatarios y propietarios</li>\n<li>Retiro y modificación de postes de riesgo</li>\n<li>Programas de educación ambiental</li>\n<li>Telemetría satelital para conocer rutas</li>\n</ul>\n</div>\n</div>\n\n<div class=\"ficha-seccion\">\n<h2>¿Cómo puedes ayudar?</h2>\n<ul>\n<li>Reporta nidos o individuos a las autoridades ambientales (CONANP, PROFEPA).</li>\n<li>Si eres cazador, utiliza munición sin plomo en zonas de distribución del águila.</li>\n<li>No adquieras ejemplares, plumas ni partes de aves rapaces.</li>\n<li>Apoya programas de conservación con ejidos ganaderos.</li>\n<li>Difunde información científica y combate mitos (el águila real <strong>no ataca ganado adulto</strong>).</li>\n</ul>\n</div>\n\n<p style=\"font-size:9pt;color:#999;margin-top:1rem;\">Fuente: Lozano Román, L.F. (2025). Monitoreo Nacional PACE Águila Real; Katzner et al. (2020). Birds of the World.</p>\n"}, "reproduccion": {"titulo": "Ciclo Reproductivo", "subtitulo": "Aquila chrysaetos — Biología reproductiva", "color": "#1e6b3a", "icono": "🥚", "contenido": "\n<div class=\"ficha-seccion\">\n<h2>Ciclo reproductivo en México</h2>\n<table class=\"datos\">\n<tr><th>Evento</th><th>Período (México)</th><th>Observaciones</th></tr>\n<tr><td>Cortejo y refuerzo de pareja</td><td>Noviembre – Enero</td><td>Vuelos acrobáticos, trasporte de ramas</td></tr>\n<tr><td>Construcción o reparación del nido</td><td>Diciembre – Febrero</td><td>Los nidos crecen año con año (eyries)</td></tr>\n<tr><td>Puesta de huevos</td><td>Enero – Marzo</td><td>1–3 huevos; promedio 2; intervalo 3–4 días</td></tr>\n<tr><td>Incubación</td><td>43–45 días</td><td>Ambos padres; hembra cubre la mayor parte</td></tr>\n<tr><td>Eclosión</td><td>Marzo – Abril</td><td>Asincrónica; el mayor polluelo puede agredir al menor (cainismo)</td></tr>\n<tr><td>Período en nido (nestling)</td><td>65–80 días</td><td>Crecimiento acelerado; plumaje funcional</td></tr>\n<tr><td>Primer vuelo (fledging)</td><td>Mayo – Julio</td><td>Los jóvenes permanecen en el territorio parental</td></tr>\n<tr><td>Independencia</td><td>Septiembre – Noviembre</td><td>Dispersión natal; hasta 1,000 km en algunos individuos</td></tr>\n</table>\n</div>\n\n<div class=\"col2\">\n<div class=\"ficha-seccion\">\n<h2>El nido (eyrie)</h2>\n<ul>\n<li>Siempre en acantilados rocosos inaccesibles.</li>\n<li>Construido con ramas y tapizado con vegetación verde.</li>\n<li>Promedio: 1–2 m de diámetro, 60–90 cm de altura.</li>\n<li>Un nido puede usarse <strong>por décadas</strong> llegando a pesar hasta 500 kg.</li>\n<li>Una pareja mantiene 2–8 nidos alternativos en su territorio.</li>\n</ul>\n</div>\n<div class=\"ficha-seccion\">\n<h2>Éxito reproductivo en México</h2>\n<ul>\n<li>Solo el <strong>38–70%</strong> de las parejas ponen huevos cada año.</li>\n<li>Promedio de polluelos volantones: <strong>≤1 por pareja/año</strong>.</li>\n<li>El cainismo (muerte del hermano menor) es frecuente en años de escasez de presas.</li>\n<li>La madurez sexual se alcanza a los <strong>4–5 años</strong>.</li>\n<li>Una pareja puede reproducirse durante <strong>más de 20 años</strong>.</li>\n</ul>\n</div>\n</div>\n\n<div class=\"alerta\">\n<strong>Nota de campo:</strong> La perturbación humana en el nido durante la incubación o las primeras semanas del polluelo es la causa más frecuente de abandono reproductivo. Se recomienda mantener una distancia mínima de 500 m durante la temporada de cría (enero–julio).\n</div>\n\n<p style=\"font-size:9pt;color:#999;margin-top:1rem;\">Fuente: Lozano Román, L.F. &amp; Camacho-Márquez (2025). Monitoreo PACE Águila Real; Katzner et al. (2020). Birds of the World.</p>\n"}, "huellas": {"titulo": "Huellas y Rastros", "subtitulo": "Aquila chrysaetos — Guía de campo", "color": "#5a4a2a", "icono": "🐾", "contenido": "\n<div class=\"alerta\">\nEl Águila real rara vez deja huellas visibles en campo, ya que pasa la mayor parte del tiempo en vuelo o posada en rocas. Sin embargo, cuando baja a consumir presas deja rastros característicos identificables por un observador entrenado.\n</div>\n\n<div class=\"ficha-seccion\">\n<h2>Descripción de la huella</h2>\n<table class=\"datos\">\n<tr><th>Característica</th><th>Medida / Descripción</th></tr>\n<tr><td>Longitud total de la huella</td><td>12–16 cm (sin incluir la garra posterior)</td></tr>\n<tr><td>Anchura</td><td>10–14 cm</td></tr>\n<tr><td>Dedos anteriores</td><td>3 (II, III, IV); III es el más largo</td></tr>\n<tr><td>Dedo posterior (hallux)</td><td>1; el más corto pero con la garra más grande y curvada</td></tr>\n<tr><td>Garras</td><td>Muy curvadas, negras, de 4–6 cm de longitud</td></tr>\n<tr><td>Sustrato donde se registra</td><td>Barro húmedo, nieve, polvo fino cerca de presas</td></tr>\n</table>\n</div>\n\n<div class=\"col2\">\n<div class=\"ficha-seccion\">\n<h2>Rastros asociados</h2>\n<ul>\n<li><strong>Comedero:</strong> restos de presa, plumas y huesos en zona abierta o bajo roquedo.</li>\n<li><strong>Egagrópilas:</strong> bolas de pelo, huesos y plumas sin digerir; 7–12 cm de largo; cilíndricas con pelaje en exterior.</li>\n<li><strong>Muda de plumas:</strong> rémiges y rectrices grandes (25–40 cm) con patrón diagnóstico por edad.</li>\n<li><strong>Excrementos (mutes):</strong> blanco-cremosos, proyectados horizontalmente; encontrados bajo posaderos habituales.</li>\n<li><strong>Marcas en presas:</strong> las garras dejan puntos de penetración separados 7–10 cm; diferencia clave con mamíferos depredadores.</li>\n</ul>\n</div>\n<div class=\"ficha-seccion\">\n<h2>Diferenciación de otras rapaces</h2>\n<ul>\n<li><strong>vs. Buitre Real:</strong> el buitre tiene dedos más cortos y garras menos curvadas; huella más redondeada.</li>\n<li><strong>vs. Águila de Harris:</strong> huella más pequeña (8–11 cm); garras proporcionalmente menores.</li>\n<li><strong>vs. Aguililla Cola Roja:</strong> mucho más pequeña (6–9 cm); 3 dedos anteriores muy juntos.</li>\n</ul>\n</div>\n</div>\n\n<div class=\"ficha-seccion\">\n<h2>Cómo documentar un registro</h2>\n<ul>\n<li>Fotografiar la huella con escala gráfica (regla o moneda).</li>\n<li>Registrar coordenadas GPS, fecha, hora y sustrato.</li>\n<li>Recolectar egagrópilas en bolsa con datos del lugar (permiso SEMARNAT requerido para traslado).</li>\n<li>Reportar a Naturalista MX (iNaturalist) o a CONANP.</li>\n</ul>\n</div>\n\n<p style=\"font-size:9pt;color:#999;margin-top:1rem;\">Fuente: Lozano Román, L.F. (2014). Guía de Identificación del Águila Real. CONANP/SIMEC; observaciones de campo 2000–2025.</p>\n"}};
+const ANIO = new Date().getFullYear();
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function renderIndice() {
+  document.title = 'Fichas Descargables · Águila Real Mexicana';
+  const items = Object.keys(FICHAS).map(id => {
+    const f = FICHAS[id];
+    return `<a class="idx-item" href="?ficha=${id}">
+      <span style="font-size:2rem;">${f.icono}</span>
+      <div>
+        <div style="font-weight:700;color:${f.color};font-size:1rem;">${escapeHtml(f.titulo)}</div>
+        <div style="font-size:0.82rem;color:#666;font-style:italic;">${escapeHtml(f.subtitulo)}</div>
+      </div>
+      <span style="margin-left:auto;font-size:0.78rem;color:#D4A23A;font-weight:600;">Ver y descargar →</span>
+    </a>`;
+  }).join('');
+  document.getElementById('app').innerHTML = `
+    <div class="idx-wrap">
+      <a class="btn-volver no-print" style="color:#8B4513;margin:0 0 1.5rem;" href="index.html#publicaciones">← Volver al sitio</a>
+      <h1>🦅 Fichas Descargables</h1>
+      <p class="idx-sub">Haz clic en cualquier ficha para abrirla. Usa el botón <strong>Imprimir / Guardar como PDF</strong> para guardarla.</p>
+      ${items}
+      <p style="font-size:0.75rem;color:#aaa;margin-top:1.5rem;text-align:center;">© ${ANIO} aguilarealmexicana.org · Uso educativo libre con atribución</p>
+    </div>`;
+}
+
+function renderFicha(id) {
+  const f = FICHAS[id];
+  if (!f) { renderIndice(); return; }
+  document.title = f.titulo + ' | Águila Real Mexicana';
+  document.getElementById('app').innerHTML = `
+    <a class="btn-volver no-print" style="color:${f.color};" href="fichas.html">← Volver al índice de fichas</a>
+    <div class="page-wrap">
+      <div class="ficha-header" style="background:${f.color};">
+        <div class="ficha-icono">${f.icono}</div>
+        <div class="ficha-header-txt">
+          <h1>${escapeHtml(f.titulo)}</h1>
+          <div class="subtitulo">${escapeHtml(f.subtitulo)}</div>
+          <div class="org">Biol. Luis Felipe Lozano Román · IMBIO · Chrysaetos Soluciones Ambientales · ${ANIO}</div>
+        </div>
+      </div>
+      <div class="ficha-body" style="--accent:${f.color};">
+        <style>
+          .ficha-body .ficha-seccion h2 { color: ${f.color}; border-bottom-color: ${f.color}; }
+          .ficha-body table.datos th { background: ${f.color}; }
+        </style>
+        ${f.contenido}
+      </div>
+      <div class="ficha-footer">
+        <span>© ${ANIO} Luis Felipe Lozano Román · <a href="https://aguilarealmexicana.org">aguilarealmexicana.org</a></span>
+        <span>Uso libre con fines educativos · Citar fuente</span>
+      </div>
+    </div>
+    <div class="no-print" style="text-align:center; padding-bottom:2rem;">
+      <button class="btn-imprimir" style="background:${f.color};" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+    </div>`;
+}
+
+const params = new URLSearchParams(location.search);
+const id = (params.get('ficha') || '').replace(/[^a-z]/g, '');
+if (id && FICHAS[id]) renderFicha(id);
+else renderIndice();
+</script>
+</body>
+</html>
