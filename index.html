@@ -173,8 +173,11 @@
     display: flex;
     align-items: stretch;
     width: 100%;
-    height: 48px;
+    min-height: 48px;
+    height: auto;
+    flex-wrap: wrap;
     padding: 0 1.2rem;
+    gap: 0 0.25rem;
   }
   .nav-line + .nav-line {
     border-top: 1px solid rgba(212,162,58,0.1);
@@ -2356,7 +2359,7 @@
         <a href="#amenazas">Amenazas</a>
         <a href="#conservacion">Estrategias</a>
         <a href="#biotelemetria">Seguimiento GPS</a>
-        <a href="migracion.html">Mapa migratorio (Movebank)</a>
+        <a href="#mapa-migracion">Rutas Movebank</a>
       </div>
 
       <div class="nav-group">
@@ -2413,6 +2416,7 @@
   <a href="#amenazas"       onclick="closeNavMenu()"><span class="mico">⚠️</span>Amenazas</a>
   <a href="#conservacion"   onclick="closeNavMenu()"><span class="mico">♻️</span>Estrategias</a>
   <a href="#biotelemetria"  onclick="closeNavMenu()"><span class="mico">📡</span>Seguimiento GPS</a>
+  <a href="#mapa-migracion" onclick="closeNavMenu()"><span class="mico">🛰️</span>Rutas Movebank</a>
 
   <span class="nav-drawer-group-label">📚 Recursos</span>
   <a href="#publicaciones"  onclick="closeNavMenu()"><span class="mico">📖</span>Publicaciones</a>
@@ -3722,6 +3726,19 @@
     </p>
   </div>
 
+  <!-- MAPA DE RUTAS MIGRATORIAS (Movebank / HawkWatch) -->
+  <div id="mapa-migracion" style="margin-bottom:2.5rem;">
+    <h3 style="font-family:'Poppins'; font-size:1.3rem; color:var(--brown-dark); margin-bottom:0.5rem;">Rutas de migración del Águila real en Norteamérica (1999–2008)</h3>
+    <p style="color:var(--text-mid); font-size:0.92rem; line-height:1.6; margin-bottom:1.2rem; max-width:760px;">
+      Águilas reales capturadas en sitios de migración otoñal en el oeste de Norteamérica, rastreadas por satélite (Argos/GPS). Cada color representa un individuo; los círculos blancos marcan el inicio del seguimiento.
+    </p>
+    <div id="mapa-migracion-leaflet" style="height:520px; width:100%; border-radius:16px; border:1px solid var(--border); z-index:1;"></div>
+    <p style="color:var(--text-mid); font-size:0.78rem; line-height:1.55; margin-top:0.9rem; opacity:0.9;">
+      <strong>Fuente:</strong> Smith JP. 2019. HawkWatch International Golden Eagles.
+      <a href="https://doi.org/10.5441/001/1.95r77m9k" target="_blank" rel="noopener" style="color:var(--sky-blue);">Movebank Data Repository</a> (CC0 1.0).
+    </p>
+  </div>
+
   <div style="background:var(--white); border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:14px; padding:1.8rem 2rem;">
     <div style="font-family:'Poppins'; font-size:0.72rem; font-weight:700; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:0.6rem;">Movebank · Plataforma internacional de datos de movimiento</div>
     <p style="color:var(--text-mid); font-size:0.95rem; line-height:1.65; margin-bottom:1.2rem;">
@@ -4937,17 +4954,108 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
     setTimeout(() => mapaTele.invalidateSize(), 200);
   }
 
+  /* ====== MAPA DE RUTAS MIGRATORIAS (Movebank) ====== */
+  let mapaMigracion = null;
+  const MIGRACION_PALETTE = ['#B8862E','#B8362E','#006847','#1E5C97','#E07A5F','#3D5A80','#90BE6D','#C9184A','#4CC9F0','#F77F00','#C77DFF','#FFB703','#81B29A','#EE6C4D','#98C1D9'];
+  function colorForMigracionId(id) {
+    let h = 0;
+    for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+    return MIGRACION_PALETTE[h % MIGRACION_PALETTE.length];
+  }
+
+  function initMapaMigracion() {
+    if (mapaMigracion || !document.getElementById('mapa-migracion-leaflet')) return;
+    mapaMigracion = L.map('mapa-migracion-leaflet', { scrollWheelZoom: false, attributionControl: true })
+      .setView([40, -110], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap', maxZoom: 12
+    }).addTo(mapaMigracion);
+
+    fetch('data/eagles-migration.geojson')
+      .then(r => r.json())
+      .then(fc => {
+        const byId = {};
+        const allBounds = [];
+        fc.features.forEach(f => {
+          const id = f.properties.id;
+          if (!byId[id]) byId[id] = [];
+          byId[id].push(f);
+        });
+
+        Object.keys(byId).forEach(id => {
+          const color = colorForMigracionId(id);
+          byId[id].forEach(f => {
+            const p = f.properties;
+            if (f.geometry.type === 'LineString') {
+              const latlngs = f.geometry.coordinates.map(c => [c[1], c[0]]);
+              L.polyline(latlngs, { color, weight: 2, opacity: 0.75, lineJoin: 'round' })
+                .bindPopup(`<div style="font-family:'Poppins',sans-serif;font-size:0.85rem;line-height:1.45;"><strong style="color:#0E2A47;">${p.id}</strong><br>Sexo: ${p.sex || 'desconocido'}<br>Etapa: ${p.lifeStage || '—'}<br>Sitio: ${p.site || '—'}<br>${p.start} – ${p.end}<br>${p.n} puntos</div>`)
+                .addTo(mapaMigracion);
+              latlngs.forEach(ll => allBounds.push(ll));
+            } else if (f.geometry.type === 'Point') {
+              const [lon, lat] = f.geometry.coordinates;
+              const isStart = p.kind === 'start';
+              L.circleMarker([lat, lon], {
+                radius: 4,
+                color,
+                fillColor: isStart ? '#ffffff' : color,
+                fillOpacity: 1,
+                weight: 2
+              }).addTo(mapaMigracion);
+              allBounds.push([lat, lon]);
+            }
+          });
+        });
+
+        const leyenda = L.control({ position: 'bottomleft' });
+        leyenda.onAdd = function() {
+          const div = L.DomUtil.create('div');
+          div.style.cssText = 'background:rgba(255,255,255,0.92);padding:8px 11px;border-radius:8px;box-shadow:0 1px 6px rgba(0,0,0,0.25);font-family:Poppins,sans-serif;font-size:11px;line-height:1.5;max-width:220px;';
+          div.innerHTML = '<div style="font-weight:700;color:#0E2A47;margin-bottom:3px;">Rutas migratorias · Movebank</div><div><span style="display:inline-block;width:14px;height:3px;background:#B8862E;vertical-align:middle;margin-right:5px;"></span>Cada color = un individuo</div><div style="margin-top:2px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#fff;border:2px solid #666;vertical-align:middle;margin-right:5px;"></span>Inicio del seguimiento</div>';
+          return div;
+        };
+        leyenda.addTo(mapaMigracion);
+
+        if (allBounds.length) mapaMigracion.fitBounds(allBounds, { padding: [30, 30] });
+        setTimeout(() => mapaMigracion.invalidateSize(), 200);
+      })
+      .catch(err => {
+        console.error('Error cargando rutas migratorias:', err);
+        document.getElementById('mapa-migracion-leaflet').innerHTML =
+          '<p style="padding:2rem;text-align:center;color:#64748b;font-family:Poppins,sans-serif;">No se pudieron cargar las rutas migratorias.</p>';
+      });
+  }
+
+  function initMapasBiotelemetria() {
+    initMapaTelemetria();
+    initMapaMigracion();
+  }
+
   if ('IntersectionObserver' in window) {
     const bioSec = document.getElementById('biotelemetria');
     if (bioSec) {
       const obsT = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) { initMapaTelemetria(); obsT.disconnect(); } });
+        entries.forEach(e => { if (e.isIntersecting) { initMapasBiotelemetria(); obsT.disconnect(); } });
       }, { threshold: 0.05 });
       obsT.observe(bioSec);
     }
+    // Si llegan por ancla directa al mapa migratorio, forzar init al cargar
+    if (location.hash === '#mapa-migracion') {
+      window.addEventListener('load', () => setTimeout(initMapasBiotelemetria, 300));
+    }
   } else {
-    window.addEventListener('load', initMapaTelemetria);
+    window.addEventListener('load', initMapasBiotelemetria);
   }
+
+  document.querySelectorAll('a[href="#mapa-migracion"]').forEach(link => {
+    link.addEventListener('click', () => {
+      setTimeout(() => {
+        initMapasBiotelemetria();
+        if (mapaMigracion) mapaMigracion.invalidateSize();
+        if (mapaTele) mapaTele.invalidateSize();
+      }, 400);
+    });
+  });
 
 </script>
 <script>
