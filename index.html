@@ -6165,7 +6165,8 @@ window.tickerClose = function() {
     {key:'territorial', label:'Territorial', icon:'🛡️', test:t => /territorial/.test(t)},
     {key:'nido', label:'Nido', icon:'🪺', test:t => /nest/.test(t)},
     {key:'vuelo', label:'Vuelo', icon:'🦅', test:t => /flight|wingbeat/.test(t)},
-    {key:'canto', label:'Canto', icon:'🎶', test:t => /song/.test(t)}
+    {key:'canto', label:'Canto', icon:'🎶', test:t => /song/.test(t)},
+    {key:'adulto', label:'Adulto', icon:'🗣️', test:t => /\bcall\b/.test(t)}
   ];
   function bioClasify(tipo) {
     const t = (tipo || '').toLowerCase();
