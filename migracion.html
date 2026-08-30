@@ -41,9 +41,9 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const map = L.map('map', { zoomControl:true }).setView([40, -110], 4);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-  subdomains: 'abcd', maxZoom: 12
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors',
+  subdomains: 'abc', maxZoom: 12
 }).addTo(map);
 
 const palette = ['#f2c14e','#e07a5f','#81b29a','#3d5a80','#ee6c4d','#98c1d9','#c9184a','#4cc9f0','#f77f00','#90be6d','#c77dff','#ffb703','#8ecae6','#fb8500','#bde0fe'];
