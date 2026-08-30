@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rutas de Migracion del Aguila Real | Aguila Real Mexicana</title>
+<meta name="description" content="Mapa interactivo de rutas de migracion de aguilas reales (Aquila chrysaetos) rastreadas via satelite en Norteamerica, 1999-2008. Datos de HawkWatch International via Movebank.">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:#101820; color:#eee; }
+  header { background:#0b1015; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; border-bottom:2px solid #b8860b; }
+  header h1 { font-size:1.2rem; margin:0; color:#f2c14e; }
+  header a.back { color:#f2c14e; text-decoration:none; font-size:0.9rem; }
+  header a.back:hover { text-decoration:underline; }
+  #map { position:absolute; top:64px; bottom:0; left:0; right:0; }
+  #panel { position:absolute; top:78px; right:14px; z-index:1000; background:rgba(15,20,25,0.92); border:1px solid #b8860b; border-radius:8px; padding:12px 14px; max-width:270px; font-size:0.85rem; line-height:1.4; }
+  #panel h2 { margin:0 0 6px; font-size:0.95rem; color:#f2c14e; }
+  #panel p { margin:4px 0; }
+  #panel a { color:#8ecbff; }
+  .legend-line { display:inline-block; width:18px; height:3px; margin-right:6px; vertical-align:middle; }
+  .leaflet-popup-content-wrapper { background:#1c242c; color:#eee; }
+  .leaflet-popup-tip { background:#1c242c; }
+  #loading { position:absolute; top:78px; left:14px; z-index:1000; background:rgba(15,20,25,0.9); padding:8px 12px; border-radius:6px; font-size:0.85rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🦅 Rutas de Migracion del Aguila Real (1999-2008)</h1>
+  <a class="back" href="index.html">&larr; Volver al sitio principal</a>
+</header>
+<div id="map"></div>
+<div id="loading">Cargando rutas...</div>
+<div id="panel">
+  <h2>Sobre estos datos</h2>
+  <p>Aguilas reales (<em>Aquila chrysaetos</em>) capturadas en sitios de migracion de otono en el oeste de Norteamerica entre 1999 y 2008, rastreadas por satelite (Argos/GPS).</p>
+  <p><span class="legend-line" style="background:#f2c14e"></span>Ruta individual (color por ave)</p>
+  <p>Fuente: Smith JP. 2019. HawkWatch International Golden Eagles. <a href="https://doi.org/10.5441/001/1.95r77m9k" target="_blank" rel="noopener">Movebank Data Repository</a> (CC0 1.0).</p>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map = L.map('map', { zoomControl:true }).setView([40, -110], 4);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+  subdomains: 'abcd', maxZoom: 12
+}).addTo(map);
+
+const palette = ['#f2c14e','#e07a5f','#81b29a','#3d5a80','#ee6c4d','#98c1d9','#c9184a','#4cc9f0','#f77f00','#90be6d','#c77dff','#ffb703','#8ecae6','#fb8500','#bde0fe'];
+function colorFor(id) {
+  let h = 0;
+  for (let i=0;i<id.length;i++) h = (h*31 + id.charCodeAt(i)) >>> 0;
+  return palette[h % palette.length];
+}
+
+fetch('data/eagles-migration.geojson')
+  .then(r => r.json())
+  .then(fc => {
+    document.getElementById('loading').style.display = 'none';
+    const byId = {};
+    fc.features.forEach(f => {
+      const id = f.properties.id;
+      if (!byId[id]) byId[id] = [];
+      byId[id].push(f);
+    });
+    Object.keys(byId).forEach(id => {
+      const color = colorFor(id);
+      byId[id].forEach(f => {
+        if (f.geometry.type === 'LineString') {
+          const latlngs = f.geometry.coordinates.map(c => [c[1], c[0]]);
+          const line = L.polyline(latlngs, { color, weight: 2, opacity: 0.75 }).addTo(map);
+          const p = f.properties;
+          line.bindPopup(`<b>Individuo:</b> ${p.id}<br><b>Sexo:</b> ${p.sex || 'desconocido'}<br><b>Etapa:</b> ${p.lifeStage || '-'}<br><b>Sitio de captura:</b> ${p.site || '-'}<br><b>Periodo:</b> ${p.start} a ${p.end}<br><b>Sensor:</b> ${p.sensor}<br><b>Puntos:</b> ${p.n}`);
+        } else if (f.geometry.type === 'Point') {
+          const [lon, lat] = f.geometry.coordinates;
+          const isStart = f.properties.kind === 'start';
+          L.circleMarker([lat, lon], {
+            radius: 4, color, fillColor: isStart ? '#ffffff' : color, fillOpacity: 1, weight: 2
+          }).bindTooltip(`${f.properties.id} - ${isStart ? 'inicio' : 'fin'} (${f.properties.t})`).addTo(map);
+        }
+      });
+    });
+  })
+  .catch(err => {
+    document.getElementById('loading').textContent = 'Error al cargar los datos de rutas.';
+    console.error(err);
+  });
+</script>
+</body>
+</html>
