@@ -5426,7 +5426,7 @@ window.chrysaAutogrow = chrysaAutogrow;
 // ════════════════════════════════════════════════════════════════
 (function() {
 
-  var API      = 'news_api.php';         // ruta relativa al mismo directorio
+  var API      = 'https://news-proxy.cernicalo-hidrocalido.workers.dev/';         // ruta relativa al mismo directorio
   var SESSION  = 'aguila_news_token';    // clave en sessionStorage
 
   // Etiquetas visuales (igual que antes)
@@ -5897,7 +5897,7 @@ function initTicker() {
     internacional: { es: 'INTERNACIONAL', en: 'INTERNATIONAL' },
   };
 
-  fetch('news_api.php?action=feed')
+  fetch('https://news-proxy.cernicalo-hidrocalido.workers.dev/?action=feed')
     .then(function(r) { return r.json(); })
     .then(function(res) {
       var news = (res.ok && res.news && res.news.length > 0) ? res.news : null;
