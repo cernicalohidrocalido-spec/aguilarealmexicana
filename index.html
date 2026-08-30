@@ -4110,7 +4110,7 @@
     <div style="font-family:'Poppins'; font-size:0.72rem; font-weight:700; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:0.6rem;">Del mito al símbolo patrio actual</div>
     <div style="text-align:center; margin:0 0 1.2rem;"><img src="img/escudo-nacional.png" alt="Escudo Nacional de México vigente: águila real posada sobre un nopal, devorando una serpiente" style="max-width:200px; width:100%; height:auto;" loading="lazy"><p style="color:var(--text-mid); font-size:0.75rem; margin-top:0.4rem; opacity:0.85;">Escudo Nacional de México vigente (DOF, 1984)</p></div>
     <p style="color:var(--text-mid); font-size:0.95rem; line-height:1.65; margin-bottom:1rem;">
-      El escudo nacional vigente —águila, nopal y serpiente— quedó establecido por decreto en la Ley sobre el Escudo, la Bandera y el Himno Nacionales (DOF, 8 de febrero de 1984). Fuera del simbolismo, el águila real es también una especie real y amenazada: figura en la Norma Oficial Mexicana como especie en peligro de extinción, y desde entonces es objeto del Programa de Acción para la Conservación de la Especie (PACE) Águila Real, coordinado por la Comisión Nacional de Áreas Naturales Protegidas.
+      El escudo nacional vigente —águila, nopal y serpiente— quedó establecido por decreto en la Ley sobre el Escudo, la Bandera y el Himno Nacionales (DOF, 8 de febrero de 1984). Fuera del simbolismo, el águila real es también una especie real y amenazada: figura en la Norma Oficial Mexicana como especie Amenazada, y desde entonces es objeto del Programa de Acción para la Conservación de la Especie (PACE) Águila Real, coordinado por la Comisión Nacional de Áreas Naturales Protegidas.
     </p>
     <p style="color:var(--text-mid); font-size:0.78rem; line-height:1.55; opacity:0.9;">
       <strong>Fuentes:</strong> Correa Lonche, G., <em>El águila y la serpiente. El problema del origen prehispánico del Escudo Nacional Mexicano</em> (INAH); Cupul-Magaña, A., Mountjoy, J.A. y Rhodes, R., hallazgo de ulna de águila real en Los Tanques, Mascota, Jalisco (~800 a.C.); Valadez Azúa, R. y Sugiyama, S., restos de dieciocho águilas reales en la Ofrenda 6 de la Pirámide de la Luna, Teotihuacan (~350 d.C.); López de Buen, R., «Águila real, de ave ritual de los mexicas a escudo de México»; Rodríguez Moya, I., «El llanto del Águila Mexicana» (Anales del IIE, 2006); SEMARNAT, «Águila real: al rescate de un símbolo patrio».
@@ -6549,15 +6549,15 @@ window.tickerClose = function() {
         if (!recs.length) { grid.innerHTML = '<p style="color:var(--text-mid);">No hay grabaciones disponibles por el momento.</p>'; return; }
         const counts = {};
         recs.forEach(r => { const c = bioClasify(r.type); const k = c ? c.key : 'otro'; counts[k] = (counts[k] || 0) + 1; });
-        let filtroHtml = '<button data-cat="todos" class="bioFiltroBtn" style="font-family:\'Poppins\'; font-size:0.78rem; font-weight:600; padding:0.5rem 1rem; border-radius:999px; border:1px solid var(--gold); background:var(--gold); color:#fff; cursor:pointer;">Todos (' + recs.length + ')</button>';
-        BIO_CATS.forEach(c => { if (counts[c.key]) { filtroHtml += '<button data-cat="' + c.key + '" class="bioFiltroBtn" style="font-family:\'Poppins\'; font-size:0.78rem; font-weight:600; padding:0.5rem 1rem; border-radius:999px; border:1px solid var(--border); background:var(--white); color:var(--brown-dark); cursor:pointer;">' + c.icon + ' ' + c.label + ' (' + counts[c.key] + ')</button>'; } });
+        let filtroHtml = '<button data-cat="todos" class="bioFiltroBtn" style="font-family:\'Poppins\'; font-size:0.78rem; font-weight:600; padding:0.5rem 1rem; border-radius:999px; border:1px solid var(--border); background:var(--white); color:var(--brown-dark); cursor:pointer;">Todos (' + recs.length + ')</button>';
+        BIO_CATS.forEach(c => { if (counts[c.key]) { filtroHtml += '<button data-cat="' + c.key + '" class="bioFiltroBtn" style="font-family:\'Poppins\'; font-size:0.78rem; font-weight:600; padding:0.5rem 1rem; border-radius:999px; border:1px solid ' + (c.key==='pareja'?'var(--gold)':'var(--border)') + '; background:' + (c.key==='pareja'?'var(--gold)':'var(--white)') + '; color:' + (c.key==='pareja'?'#fff':'var(--brown-dark)') + '; cursor:pointer;">' + c.icon + ' ' + c.label + ' (' + counts[c.key] + ')</button>'; } });
         if (counts.otro) { filtroHtml += '<button data-cat="otro" class="bioFiltroBtn" style="font-family:\'Poppins\'; font-size:0.78rem; font-weight:600; padding:0.5rem 1rem; border-radius:999px; border:1px solid var(--border); background:var(--white); color:var(--brown-dark); cursor:pointer;">❓ No determinado (' + counts.otro + ')</button>'; }
         filtros.innerHTML = filtroHtml;
         function render(catKey) {
           const filtered = catKey === 'todos' ? recs : recs.filter(r => { const c = bioClasify(r.type); return (c ? c.key : 'otro') === catKey; });
           grid.innerHTML = filtered.slice(0, 30).map(bioCard).join('');
         }
-        render('todos');
+        render('pareja');
         filtros.querySelectorAll('.bioFiltroBtn').forEach(btn => {
           btn.addEventListener('click', () => {
             filtros.querySelectorAll('.bioFiltroBtn').forEach(b => { b.style.background = 'var(--white)'; b.style.color = 'var(--brown-dark)'; b.style.borderColor = 'var(--border)'; });
