@@ -2365,6 +2365,7 @@
       <div class="nav-group">
         <span class="nav-group-label">📚 Recursos</span>
         <a href="#publicaciones">Publicaciones</a>
+        <a href="#bioacustica">Bioacustica</a>
         <a href="#noticias">Noticias</a>
         <a href="#galeria-fotos">Galería</a>
         <a href="#preguntas">FAQ</a>
@@ -2420,6 +2421,7 @@
 
   <span class="nav-drawer-group-label">📚 Recursos</span>
   <a href="#publicaciones"  onclick="closeNavMenu()"><span class="mico">📖</span>Publicaciones</a>
+  <a href="#bioacustica" onclick="closeNavMenu()"><span class="mico">🔊</span>Bioacustica</a>
   <a href="#noticias"       onclick="closeNavMenu()"><span class="mico">📰</span>Noticias</a>
   <a href="#galeria-fotos"  onclick="closeNavMenu()"><span class="mico">📷</span>Galería</a>
   <a href="#preguntas"      onclick="closeNavMenu()"><span class="mico">❓</span>FAQ</a>
@@ -3753,6 +3755,22 @@
       Por seguridad de la especie, los estudios con datos sensibles restringen la ubicación exacta de los nidos. Los enlaces muestran la información pública disponible en cada plataforma.
     </p>
   </div>
+</section>
+
+<!-- BIOACUSTICA -->
+<section id="bioacustica" style="background:var(--white);">
+  <div class="section-label">Sonido y comportamiento</div>
+  <h2 class="section-title">Bioacustica<br><em style="color:var(--gold);">del Aguila Real</em></h2>
+  <p style="max-width:760px; color:var(--text-mid); font-size:1.02rem; line-height:1.7; margin-bottom:1.6rem;">
+    Cada llamada del aguila real tiene un contexto: contacto entre pareja, mendicidad de un juvenil, alarma territorial. Esta biblioteca reune grabaciones de campo documentadas por observadores de todo el mundo, con su contexto conductual solo cuando el propio registro lo permite determinar, nunca por interpretacion nuestra del sonido.
+  </p>
+  <div id="bioFiltros" style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-bottom:1.8rem;"></div>
+  <div id="bioGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:1.4rem;">
+    <p style="color:var(--text-mid); font-family:'Poppins',sans-serif;">Cargando grabaciones...</p>
+  </div>
+  <p style="color:var(--text-mid); font-size:0.78rem; line-height:1.55; margin-top:1.6rem; opacity:0.9;">
+    <strong>Fuente:</strong> <a href="https://xeno-canto.org" target="_blank" rel="noopener" style="color:var(--sky-blue);">Xeno-canto</a>, biblioteca colaborativa de sonidos de aves. Cada grabacion conserva su licencia Creative Commons original y el credito a su grabador; el tipo de vocalizacion y el contexto conductual provienen del propio registro del observador.
+  </p>
 </section>
 
 <!-- PUBLICACIONES -->
@@ -6137,6 +6155,88 @@ window.tickerClose = function() {
     addTapHandler('chrysaFab', chrysaToggle);
   });
 })();
+
+  /* ====== BIOACUSTICA (Xeno-canto) ====== */
+  let bioLoaded = false;
+  const BIO_CATS = [
+    {key:'juvenil', label:'Juvenil', icon:'🐣', test:t => /begging|nestling|hatchling|juvenile/.test(t)},
+    {key:'alarma', label:'Alarma', icon:'⚠️', test:t => /alarm/.test(t)},
+    {key:'pareja', label:'Pareja', icon:'❤️', test:t => /duet|copulat|mating/.test(t)},
+    {key:'territorial', label:'Territorial', icon:'🛡️', test:t => /territorial/.test(t)},
+    {key:'nido', label:'Nido', icon:'🪺', test:t => /nest/.test(t)},
+    {key:'vuelo', label:'Vuelo', icon:'🦅', test:t => /flight|wingbeat/.test(t)},
+    {key:'canto', label:'Canto', icon:'🎶', test:t => /song/.test(t)}
+  ];
+  function bioClasify(tipo) {
+    const t = (tipo || '').toLowerCase();
+    if (!t || /uncertain|unknown/.test(t)) return null;
+    for (const c of BIO_CATS) { if (c.test(t)) return c; }
+    return null;
+  }
+  function bioCard(r) {
+    const cat = bioClasify(r.type);
+    const catLabel = cat ? (cat.icon + ' ' + cat.label) : '❓ Contexto no determinado';
+    const lugar = [r.locality, r.country].filter(Boolean).join(', ');
+    const rmk = r.remarks ? r.remarks.replace(/\[.*?\]\(.*?\)/g, '').trim() : '';
+    return '<div style="background:var(--white); border:1px solid var(--border); border-top:4px solid var(--gold); border-radius:14px; overflow:hidden; display:flex; flex-direction:column;">' +
+      (r.sonoUrl ? ('<img src="' + r.sonoUrl + '" alt="Espectrograma" loading="lazy" style="width:100%; display:block; background:#0E2A47;">') : '') +
+      '<div style="padding:1.2rem 1.3rem 1.4rem; display:flex; flex-direction:column; flex:1;">' +
+      '<span style="font-family:\'Poppins\'; font-size:0.68rem; letter-spacing:1px; text-transform:uppercase; font-weight:600; color:var(--gold-dark); background:rgba(184,134,46,0.1); align-self:flex-start; padding:0.3rem 0.7rem; border-radius:999px; margin-bottom:0.7rem;">' + catLabel + '</span>' +
+      '<audio controls preload="none" style="width:100%; margin-bottom:0.8rem;" src="' + r.fileUrl + '"></audio>' +
+      '<div style="font-family:\'Poppins\'; font-size:0.85rem; color:var(--brown-dark); font-weight:600; margin-bottom:0.3rem;">' + (lugar || 'Localidad no especificada') + '</div>' +
+      '<div style="color:var(--text-mid); font-size:0.8rem; line-height:1.5; margin-bottom:0.5rem;">Grabador: ' + (r.recordist || 'Anonimo') + ' · ' + (r.date || '') + (r.quality ? (' · Calidad ' + r.quality) : '') + '</div>' +
+      (rmk ? ('<div style="color:var(--text-mid); font-size:0.78rem; line-height:1.5; font-style:italic; margin-bottom:0.7rem;">“' + rmk + '”</div>') : '') +
+      '<div style="margin-top:auto; display:flex; justify-content:space-between; align-items:center; padding-top:0.6rem;">' +
+      '<a href="' + r.lic + '" target="_blank" rel="noopener" style="font-size:0.72rem; color:var(--sky-blue); text-decoration:none;">Licencia CC</a>' +
+      '<a href="' + r.url + '" target="_blank" rel="noopener" style="font-size:0.72rem; color:var(--gold-dark); font-weight:600; text-decoration:none;">Xeno-canto →</a>' +
+      '</div></div></div>';
+  }
+  function initBioacustica() {
+    if (bioLoaded) return;
+    bioLoaded = true;
+    fetch('https://news-proxy.cernicalo-hidrocalido.workers.dev/?action=eagle-sounds')
+      .then(r => r.json())
+      .then(data => {
+        const recs = data.recordings || [];
+        const grid = document.getElementById('bioGrid');
+        const filtros = document.getElementById('bioFiltros');
+        if (!recs.length) { grid.innerHTML = '<p style="color:var(--text-mid);">No hay grabaciones disponibles por el momento.</p>'; return; }
+        const counts = {};
+        recs.forEach(r => { const c = bioClasify(r.type); const k = c ? c.key : 'otro'; counts[k] = (counts[k] || 0) + 1; });
+        let filtroHtml = '<button data-cat="todos" class="bioFiltroBtn" style="font-family:\'Poppins\'; font-size:0.78rem; font-weight:600; padding:0.5rem 1rem; border-radius:999px; border:1px solid var(--gold); background:var(--gold); color:#fff; cursor:pointer;">Todos (' + recs.length + ')</button>';
+        BIO_CATS.forEach(c => { if (counts[c.key]) { filtroHtml += '<button data-cat="' + c.key + '" class="bioFiltroBtn" style="font-family:\'Poppins\'; font-size:0.78rem; font-weight:600; padding:0.5rem 1rem; border-radius:999px; border:1px solid var(--border); background:var(--white); color:var(--brown-dark); cursor:pointer;">' + c.icon + ' ' + c.label + ' (' + counts[c.key] + ')</button>'; } });
+        if (counts.otro) { filtroHtml += '<button data-cat="otro" class="bioFiltroBtn" style="font-family:\'Poppins\'; font-size:0.78rem; font-weight:600; padding:0.5rem 1rem; border-radius:999px; border:1px solid var(--border); background:var(--white); color:var(--brown-dark); cursor:pointer;">❓ No determinado (' + counts.otro + ')</button>'; }
+        filtros.innerHTML = filtroHtml;
+        function render(catKey) {
+          const filtered = catKey === 'todos' ? recs : recs.filter(r => { const c = bioClasify(r.type); return (c ? c.key : 'otro') === catKey; });
+          grid.innerHTML = filtered.slice(0, 30).map(bioCard).join('');
+        }
+        render('todos');
+        filtros.querySelectorAll('.bioFiltroBtn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            filtros.querySelectorAll('.bioFiltroBtn').forEach(b => { b.style.background = 'var(--white)'; b.style.color = 'var(--brown-dark)'; b.style.borderColor = 'var(--border)'; });
+            btn.style.background = 'var(--gold)'; btn.style.color = '#fff'; btn.style.borderColor = 'var(--gold)';
+            render(btn.getAttribute('data-cat'));
+          });
+        });
+      })
+      .catch(err => {
+        console.error('Error cargando bioacustica:', err);
+        document.getElementById('bioGrid').innerHTML = '<p style="color:var(--text-mid);">No se pudieron cargar las grabaciones en este momento.</p>';
+      });
+  }
+  if ('IntersectionObserver' in window) {
+    const bioAcSec = document.getElementById('bioacustica');
+    if (bioAcSec) {
+      const obsBio = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { initBioacustica(); obsBio.disconnect(); } });
+      }, { threshold: 0.05 });
+      obsBio.observe(bioAcSec);
+    }
+  } else {
+    window.addEventListener('load', initBioacustica);
+  }
+
 </script>
 </body>
 </html>
