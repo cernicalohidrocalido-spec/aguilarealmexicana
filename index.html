@@ -882,6 +882,74 @@
     line-height: 1.5;
   }
 
+  /* === IMPORTANCIA CULTURAL === */
+  .cult-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .cult-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cult-card-img {
+    height: 210px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .cult-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+    display: block;
+  }
+
+  .cult-card:hover .cult-card-img img { transform: scale(1.05); }
+
+  .cult-card-body {
+    padding: 1.5rem 1.6rem 1.7rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cult-card-body h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.05rem;
+    color: var(--brown-dark);
+    margin-bottom: 0.65rem;
+    line-height: 1.3;
+  }
+
+  .cult-card-body p {
+    color: var(--text-mid);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .cult-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .cult-gallery .gal-img {
+    height: 230px;
+    border-radius: 12px;
+  }
+
   /* === DISTRIBUCION === */
   #distribucion {
     background: var(--section-alt);
@@ -2411,7 +2479,7 @@
   }
 
   .amenazas-grid, .ninos-grid, .estrategias-grid, .repro-grid,
-  .galeria-masonry, .galeria-strip {
+  .galeria-masonry, .galeria-strip, .cult-cards, .cult-gallery {
     grid-template-columns: 1fr !important;
   }
 
@@ -3958,44 +4026,94 @@
 <!-- IMPORTANCIA CULTURAL -->
 <section id="cultura" style="background:var(--section-alt);">
   <div class="section-label">Patrimonio y simbolismo</div>
-  <h2 class="section-title">Importancia Cultural<br><em style="color:var(--gold);">del Aguila Real</em></h2>
+  <h2 class="section-title">Importancia Cultural<br><em style="color:var(--gold);">del Águila Real</em></h2>
   <p style="max-width:760px; color:var(--text-mid); font-size:1.02rem; line-height:1.7; margin-bottom:2.5rem;">
-    Mucho antes de ser objeto de estudio cientifico, el aguila real ya era el animal mas venerado del Mexico prehispanico. Su imagen sostiene, todavia hoy, el simbolo central de la identidad nacional: la bandera de Mexico.
+    Mucho antes de ser objeto de estudio científico, el águila real ya era el animal más venerado del México prehispánico. Su imagen atravesó imperios, colonia e independencia, y aún hoy sostiene el símbolo central de la identidad nacional: la bandera de México.
   </p>
 
-  <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1.5rem; margin-bottom:2.5rem;" class="biotel-grid">
-    <div style="background:var(--white); border:1px solid var(--border); border-radius:16px; padding:1.8rem; display:flex; flex-direction:column;">
-      <div style="font-size:2rem; margin-bottom:0.8rem;">&#127993;</div>
-      <h3 style="font-family:'Poppins'; font-size:1.1rem; color:var(--brown-dark); margin-bottom:0.6rem;">La fundacion de Tenochtitlan</h3><img src="img/cultura-fundacion-tenochtitlan.jpg" alt="Escena de la fundacion de Mexico-Tenochtitlan, Codex Mendoza, folio 2r" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin:0.7rem 0 0.4rem;" loading="lazy"><p style="color:var(--text-mid); font-size:0.68rem; opacity:0.75; margin:0 0 0.6rem; line-height:1.4;">Codex Mendoza, folio 2r (c. 1541), dominio publico. Fuente: Biblioteca Bodleiana, Universidad de Oxford.</p>
-      <p style="color:var(--text-mid); font-size:0.9rem; line-height:1.6; flex:1;">Segun la tradicion mexica, los sacerdotes de Huitzilopochtli encontraron la senal profetizada -un aguila posada sobre un nopal, devorando una serpiente- en un islote del lago de Texcoco, y ahi fundaron Mexico-Tenochtitlan en 1325. Esa escena es hoy el centro de la bandera nacional.</p>
+  <div class="cult-cards">
+    <article class="cult-card">
+      <div class="cult-card-img" onclick="openLightbox('img/cultural/TemploMayor.JPG','Templo Mayor de Tenochtitlan — centro ceremonial donde se excavaron decenas de restos de águila real')">
+        <img src="img/cultural/TemploMayor.JPG" alt="Vista del Templo Mayor de Tenochtitlan, Ciudad de México" loading="lazy">
+      </div>
+      <div class="cult-card-body">
+        <h3>La fundación de Tenochtitlan</h3>
+        <p>Según la tradición mexica, los sacerdotes de Huitzilopochtli encontraron la señal profetizada —un águila posada sobre un nopal, devorando una serpiente— en un islote del lago de Texcoco, y ahí fundaron México-Tenochtitlan en 1325. Los códices Mendocino y Durán recogen la escena; hoy es el centro del escudo y la bandera nacionales.</p>
+      </div>
+    </article>
+    <article class="cult-card">
+      <div class="cult-card-img" onclick="openLightbox('img/cultural/GuerrorAguilaFrente.JPG','Escultura de guerrero águila (cuāuhtli) — orden militar y sacerdotal de élite mexica')">
+        <img src="img/cultural/GuerrorAguilaFrente.JPG" alt="Escultura de guerrero águila mexica, vista frontal" loading="lazy">
+      </div>
+      <div class="cult-card-body">
+        <h3>Los Guerreros Águila</h3>
+        <p>Los <em>cuāuhtin</em> o «caballeros águila» formaban una orden militar y religiosa de élite, asociada a Huitzilopochtli y al Sol. Vestían el característico traje de águila —yelmo con pico, garras y plumas— y se ingresaba tras capturar prisioneros en combate. Muchos actuaban como intermediarios rituales y llegaron a ser consejeros del <em>tlatoani</em>. Su casa ceremonial, la Casa de las Águilas, se excavó junto al Templo Mayor.</p>
+      </div>
+    </article>
+    <article class="cult-card">
+      <div class="cult-card-img" onclick="openLightbox('img/cultural/CasaGuerrerosAguila.JPG','Casa de las Águilas — edificio ritual del Templo Mayor donde se depositaron ofrendas con águilas reales')">
+        <img src="img/cultural/CasaGuerrerosAguila.JPG" alt="Casa de las Águilas en el recinto del Templo Mayor" loading="lazy">
+      </div>
+      <div class="cult-card-body">
+        <h3>Evidencia en el Templo Mayor</h3>
+        <p>Las excavaciones del INAH han recuperado los restos óseos de más de cuarenta águilas reales en ofrendas rituales —con mayor intensidad durante los reinados de Ahuítzotl y Moctezuma Xocoyotzin (1486–1520). El análisis osteológico confirma que se trata de <em>Aquila chrysaetos</em>. Las aves capturadas vivas eran mantenidas en cautiverio por cuidadores dedicados antes de ser consagradas.</p>
+      </div>
+    </article>
+  </div>
+
+  <div style="font-family:'Poppins'; font-size:0.72rem; font-weight:700; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:1rem;">Registro arqueológico · Templo Mayor (INAH)</div>
+  <div class="cult-gallery">
+    <div class="gal-img" onclick="openLightbox('img/cultural/EsqueletoAguilaTemploMayor.JPG','Restos esqueletales de águila real depositados como ofrenda en el Templo Mayor')">
+      <img src="img/cultural/EsqueletoAguilaTemploMayor.JPG" alt="Esqueleto de águila real hallado en el Templo Mayor" loading="lazy">
+      <div class="gal-label">Restos óseos en ofrenda ritual</div>
     </div>
-    <div style="background:var(--white); border:1px solid var(--border); border-radius:16px; padding:1.8rem; display:flex; flex-direction:column;">
-      <div style="font-size:2rem; margin-bottom:0.8rem;">&#9876;&#65039;</div>
-      <h3 style="font-family:'Poppins'; font-size:1.1rem; color:var(--brown-dark); margin-bottom:0.6rem;">Los Guerreros Aguila</h3><img src="img/cultura-guerrero-aguila.jpg" alt="Escultura de un Guerrero Aguila mexica" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin:0.7rem 0 0.4rem;" loading="lazy"><p style="color:var(--text-mid); font-size:0.68rem; opacity:0.75; margin:0 0 0.6rem; line-height:1.4;">Foto: Gary Todd (Flickr), dominio publico (CC0).</p>
-      <p style="color:var(--text-mid); font-size:0.9rem; line-height:1.6; flex:1;">Los cuauhtin o "Caballeros Aguila" formaban una orden militar y religiosa de elite, asociada a Huitzilopochtli y al Sol. Se ingresaba tras capturar prisioneros en combate; sus integrantes actuaban como intermediarios rituales entre los dioses y el pueblo, y muchos llegaron a ser consejeros del tlatoani.</p>
+    <div class="gal-img" onclick="openLightbox('img/cultural/EtiquetaEsqueletoAguilaRealTemploMayor.JPG','Etiqueta de registro arqueológico — águila real, Templo Mayor')">
+      <img src="img/cultural/EtiquetaEsqueletoAguilaRealTemploMayor.JPG" alt="Etiqueta de registro del esqueleto de águila real del Templo Mayor" loading="lazy">
+      <div class="gal-label">Registro arqueológico INAH</div>
     </div>
-    <div style="background:var(--white); border:1px solid var(--border); border-radius:16px; padding:1.8rem; display:flex; flex-direction:column;">
-      <div style="font-size:2rem; margin-bottom:0.8rem;">&#127963;&#65039;</div>
-      <h3 style="font-family:'Poppins'; font-size:1.1rem; color:var(--brown-dark); margin-bottom:0.6rem;">Evidencia en el Templo Mayor</h3><img src="img/cultura-templo-mayor.jpg" alt="Ruinas del Templo Mayor de Tenochtitlan en el centro de la Ciudad de Mexico" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin:0.7rem 0 0.4rem;" loading="lazy"><p style="color:var(--text-mid); font-size:0.68rem; opacity:0.75; margin:0 0 0.6rem; line-height:1.4;">Foto: Mike Peel (<a href="https://www.mikepeel.net/" target="_blank" rel="noopener">www.mikepeel.net</a>), <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</p>
-      <p style="color:var(--text-mid); font-size:0.9rem; line-height:1.6; flex:1;">Las excavaciones del Templo Mayor de Tenochtitlan han recuperado los restos oseos de decenas de aguilas reales en ofrendas rituales -entre ellas la Casa de las Aguilas-, con mayor intensidad durante los reinados de Ahuizotl y Moctezuma Xocoyotzin (1486-1520). Las aves capturadas vivas eran mantenidas en jaulas por cuidadores dedicados.</p>
+    <div class="gal-img" onclick="openLightbox('img/cultural/CabezaAguilaTemploMayor.JPG','Cabeza de águila real — pieza ritual del Templo Mayor')">
+      <img src="img/cultural/CabezaAguilaTemploMayor.JPG" alt="Cabeza de águila real, ofrenda del Templo Mayor" loading="lazy">
+      <div class="gal-label">Cabeza de águila en ofrenda</div>
+    </div>
+    <div class="gal-img" onclick="openLightbox('img/cultural/GuerreroAguilaPerfil.JPG','Guerrero águila — escultura de perfil, símbolo del rango guerrero mexica')">
+      <img src="img/cultural/GuerreroAguilaPerfil.JPG" alt="Escultura de guerrero águila, vista de perfil" loading="lazy">
+      <div class="gal-label">Guerrero águila · perfil</div>
+    </div>
+    <div class="gal-img" onclick="openLightbox('img/cultural/CasaGuerrerosAguila.JPG','Casa de las Águilas — espacio ceremonial junto al Templo Mayor')">
+      <img src="img/cultural/CasaGuerrerosAguila.JPG" alt="Casa de las Águilas, Templo Mayor" loading="lazy">
+      <div class="gal-label">Casa de las Águilas</div>
+    </div>
+    <div class="gal-img" onclick="openLightbox('img/cultural/TemploMayor.JPG','Templo Mayor de Tenochtitlan — uno de los sitios arqueológicos más importantes de América')">
+      <img src="img/cultural/TemploMayor.JPG" alt="Templo Mayor de Tenochtitlan" loading="lazy">
+      <div class="gal-label">Templo Mayor · Tenochtitlan</div>
     </div>
   </div>
 
   <div style="background:var(--white); border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:14px; padding:1.8rem 2rem; margin-bottom:1.5rem;">
-    <div style="font-family:'Poppins'; font-size:0.72rem; font-weight:700; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:0.6rem;">Una presencia milenaria confirmada por la arqueologia</div>
+    <div style="font-family:'Poppins'; font-size:0.72rem; font-weight:700; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:0.6rem;">Una presencia milenaria confirmada por la arqueología</div>
     <p style="color:var(--text-mid); font-size:0.95rem; line-height:1.65;">
-      La evidencia osea acumulada en las ultimas decadas deja claro que el aguila real no solo era conocida, sino activamente manejada por las culturas del Mexico antiguo mucho antes del Imperio mexica. En Los Tanques, Mascota (Jalisco), se hallo una ulna de aguila real perforada como colgante en un entierro ceremonial de alto estatus fechado hacia el 800 a.C., del periodo Formativo Medio. En la Piramide de la Luna de Teotihuacan, la Ofrenda 6 (excavada entre 1998 y 2004, hacia el 350 d.C.) contenia los restos de dieciocho aguilas reales, algunas con marcas de desgaste en las patas por haber sido atadas en cautiverio y alimentadas con conejo. Sumado a los mas de cuarenta ejemplares hallados en el Templo Mayor de Tenochtitlan, el registro arqueologico cubre casi tres mil anos de manejo continuo de la especie en territorio mexicano, desde el Formativo hasta el Posclasico.
+      La evidencia ósea acumulada en las últimas décadas deja claro que el águila real no solo era conocida, sino activamente manejada por las culturas del México antiguo mucho antes del Imperio mexica. En Los Tanques, Mascota (Jalisco), se halló una ulna de águila real perforada como colgante en un entierro ceremonial de alto estatus fechado hacia el 800 a.C., del periodo Formativo Medio. En la Pirámide de la Luna de Teotihuacan, la Ofrenda 6 (excavada entre 1998 y 2004, hacia el 350 d.C.) contenía los restos de dieciocho águilas reales, algunas con marcas de desgaste en las patas por haber sido atadas en cautiverio y alimentadas con conejo. Sumado a los más de cuarenta ejemplares hallados en el Templo Mayor de Tenochtitlan, el registro arqueológico cubre casi tres mil años de manejo continuo de la especie en territorio mexicano, desde el Formativo hasta el Posclásico.
+    </p>
+  </div>
+
+  <div style="background:var(--white); border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:14px; padding:1.8rem 2rem; margin-bottom:1.5rem;">
+    <div style="font-family:'Poppins'; font-size:0.72rem; font-weight:700; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:0.6rem;">De la colonia a la identidad nacional</div>
+    <p style="color:var(--text-mid); font-size:0.95rem; line-height:1.65; margin-bottom:1rem;">
+      El águila había sido desde el imperio azteca la enseña de los ejércitos indígenas. Tras la Conquista, nativos y criollos conservaron el ave como emblema de la Ciudad de México —la escena del águila, el nopal y la serpiente— pese a que Carlos V no la incluyó en el escudo de 1523 y algunos virreyes intentaron suprimirla. A mediados del siglo XVIII, los eruditos novohispanos reivindicaron activamente esa herencia prehispánica como raíz de una identidad propia.
+    </p>
+    <p style="color:var(--text-mid); font-size:0.95rem; line-height:1.65;">
+      En 1759, las exequias por la reina Bárbara de Braganza en la Catedral Metropolitana se titularon <em>Tristes ayes de la Águila Mexicana</em> (publicadas en 1760): el «llanto» del águila personificaba el dolor del pueblo novohispano y, al mismo tiempo, su orgullo identitario. Ese símbolo —del mito mexica al escudo criollo y, más tarde, al emblema de la nación independiente— explica por qué la conservación de la especie hoy es también un asunto de patrimonio vivo, no solo de biodiversidad.
     </p>
   </div>
 
   <div style="background:var(--white); border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:14px; padding:1.8rem 2rem;">
-    <div style="font-family:'Poppins'; font-size:0.72rem; font-weight:700; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:0.6rem;">Del mito al simbolo patrio actual</div>
-      <div style="text-align:center; margin:0 0 1.2rem;"><img src="img/escudo-nacional.png" alt="Escudo Nacional de Mexico vigente: aguila real posada sobre un nopal, devorando una serpiente" style="max-width:200px; width:100%; height:auto;" loading="lazy"><p style="color:var(--text-mid); font-size:0.75rem; margin-top:0.4rem; opacity:0.85;">Escudo Nacional de Mexico vigente (DOF, 1984)</p></div>
+    <div style="font-family:'Poppins'; font-size:0.72rem; font-weight:700; letter-spacing:1px; color:var(--gold-dark); text-transform:uppercase; margin-bottom:0.6rem;">Del mito al símbolo patrio actual</div>
+    <div style="text-align:center; margin:0 0 1.2rem;"><img src="img/escudo-nacional.png" alt="Escudo Nacional de México vigente: águila real posada sobre un nopal, devorando una serpiente" style="max-width:200px; width:100%; height:auto;" loading="lazy"><p style="color:var(--text-mid); font-size:0.75rem; margin-top:0.4rem; opacity:0.85;">Escudo Nacional de México vigente (DOF, 1984)</p></div>
     <p style="color:var(--text-mid); font-size:0.95rem; line-height:1.65; margin-bottom:1rem;">
-      El escudo nacional vigente -aguila, nopal y serpiente- quedo establecido por decreto en la Ley sobre el Escudo, la Bandera y el Himno Nacionales (DOF, 8 de febrero de 1984). Fuera del simbolismo, el aguila real es tambien una especie real y amenazada: figura en la Norma Oficial Mexicana como especie en peligro de extincion, y desde entonces es objeto del Programa de Accion para la Conservacion de la Especie (PACE) Aguila Real, coordinado por la Comision Nacional de Areas Naturales Protegidas.
+      El escudo nacional vigente —águila, nopal y serpiente— quedó establecido por decreto en la Ley sobre el Escudo, la Bandera y el Himno Nacionales (DOF, 8 de febrero de 1984). Fuera del simbolismo, el águila real es también una especie real y amenazada: figura en la Norma Oficial Mexicana como especie en peligro de extinción, y desde entonces es objeto del Programa de Acción para la Conservación de la Especie (PACE) Águila Real, coordinado por la Comisión Nacional de Áreas Naturales Protegidas.
     </p>
     <p style="color:var(--text-mid); font-size:0.78rem; line-height:1.55; opacity:0.9;">
-      <strong>Fuentes:</strong> Correa Lonche, G., <em>El aguila y la serpiente. El problema del origen prehispanico del Escudo Nacional Mexicano</em> (INAH); Cupul-Magana, A., Mountjoy, J.A. y Rhodes, R., hallazgo de una ulna de aguila real en Los Tanques, Mascota, Jalisco (~800 a.C.); Valadez Azua, R. y Sugiyama, S., restos de dieciocho aguilas reales en la Ofrenda 6 de la Piramide de la Luna, Teotihuacan (~350 d.C.); Lopez de Buen, R., "Aguila real, de ave ritual de los mexicas a escudo de Mexico"; SEMARNAT, "Aguila real: al rescate de un simbolo patrio".
+      <strong>Fuentes:</strong> Correa Lonche, G., <em>El águila y la serpiente. El problema del origen prehispánico del Escudo Nacional Mexicano</em> (INAH); Cupul-Magaña, A., Mountjoy, J.A. y Rhodes, R., hallazgo de ulna de águila real en Los Tanques, Mascota, Jalisco (~800 a.C.); Valadez Azúa, R. y Sugiyama, S., restos de dieciocho águilas reales en la Ofrenda 6 de la Pirámide de la Luna, Teotihuacan (~350 d.C.); López de Buen, R., «Águila real, de ave ritual de los mexicas a escudo de México»; Rodríguez Moya, I., «El llanto del Águila Mexicana» (Anales del IIE, 2006); SEMARNAT, «Águila real: al rescate de un símbolo patrio».
     </p>
   </div>
 </section>
