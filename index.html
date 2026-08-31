@@ -6486,7 +6486,7 @@ window.chrysaAutogrow = chrysaAutogrow;
     imgPromise.then(function(imgUrl) {
       var action = editId ? 'update' : 'create';
       var data   = { title, title_en: titleEn, summary, summary_en: summaryEn, url, tag, expiry, img: imgUrl };
-      if (editId) data.id = parseInt(editId);
+      if (editId) data.id = editId;
       return api(action, data);
     }).then(function(res) {
       btn.disabled = false;
