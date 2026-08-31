@@ -6269,7 +6269,7 @@ window.chrysaAutogrow = chrysaAutogrow;
     if (!feed) return;
     feed.innerHTML = '<div style="color:var(--text-mid); font-size:0.9rem; padding:0.5rem 0;">' + ui('loading') + '</div>';
     api('feed').then(function(res) {
-      var news = (res.ok && res.news) ? res.news : [];
+      var news = (res.ok && res.items) ? res.items : [];
       if (news.length === 0) {
         feed.innerHTML = '';
         empty.style.display = 'block';
@@ -6503,7 +6503,7 @@ window.chrysaAutogrow = chrysaAutogrow;
 
   window.newsEdit = function(id) {
     api('list').then(function(res) {
-      var n = (res.news || []).find(function(x) { return String(x.id) === String(id); });
+      var n = (res.items || []).find(function(x) { return String(x.id) === String(id); });
       if (!n) return;
       document.getElementById('newsEditId').value       = n.id;
       document.getElementById('newsInputTitle').value   = n.title;
@@ -6546,7 +6546,7 @@ window.chrysaAutogrow = chrysaAutogrow;
     if (!list) return;
     list.innerHTML = '<div style="color:#888;font-size:0.85rem;">Cargando…</div>';
     api('list').then(function(res) {
-      var all = res.news || [];
+      var all = res.items || [];
       if (cnt) cnt.textContent = '(' + all.length + ')';
       if (all.length === 0) {
         list.innerHTML = '<p style="font-size:0.85rem;color:#888;font-style:italic;">No hay noticias todavía.</p>';
@@ -6695,7 +6695,7 @@ function initTicker() {
   fetch('https://news-proxy.cernicalo-hidrocalido.workers.dev/?action=feed')
     .then(function(r) { return r.json(); })
     .then(function(res) {
-      var news = (res.ok && res.news && res.news.length > 0) ? res.news : null;
+      var news = (res.ok && res.items && res.items.length > 0) ? res.items : null;
       if (!news) {
         // Sin noticias: garantizar que el body no tenga has-ticker
         document.body.classList.remove('has-ticker');
