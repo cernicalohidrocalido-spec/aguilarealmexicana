@@ -5407,6 +5407,7 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
         { label: 'Egipto', iso: 'EG', inat: 'Egypt' }
       ];
     let mapaMundial, mundialHeat, mundialLayer, inatTaxonIdPromise;
+      let mundialReqToken = 0;
     const inatPlaceCache = {};
 
     function getInatTaxonId() {
@@ -5453,6 +5454,7 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
       }
 
       function cargarPais(p) {
+        const myToken = ++mundialReqToken;
         const info = document.getElementById('mapa-mundial-info');
         info.textContent = 'Cargando registros de ' + p.label + '...';
         if (mundialLayer) { mapaMundial.removeLayer(mundialLayer); mundialLayer = null; }
@@ -5483,6 +5485,10 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
               }).catch(() => ({ results: [] }));
 
             Promise.all([gbifReq, inatReq]).then(([gbifData, inatData]) => {
+              if (myToken !== mundialReqToken) return;
+              if (mundialLayer) { mapaMundial.removeLayer(mundialLayer); mundialLayer = null; }
+              const clusterAvail2 = typeof L.markerClusterGroup === 'function';
+              mundialLayer = clusterAvail2 ? L.markerClusterGroup({ maxClusterRadius: 40 }) : L.layerGroup();
               let count = 0;
               (gbifData.results || []).forEach(o => {
                 if (!o.decimalLatitude || !o.decimalLongitude) return;
