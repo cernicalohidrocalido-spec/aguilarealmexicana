@@ -5365,6 +5365,7 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
     
     const PAISES_AGUILA = [
         { label: 'Estados Unidos', iso: 'US', inat: 'United States' },
+        { label: 'Alaska (EE.UU.)', iso: 'US', inat: 'United States', bbox: [51, -180, 72, -129] },
         { label: 'Canada', iso: 'CA', inat: 'Canada' },
         { label: 'Mexico', iso: 'MX', inat: 'Mexico' },
         { label: 'Espana', iso: 'ES', inat: 'Spain' },
@@ -5468,13 +5469,16 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
             const clusterAvail = typeof L.markerClusterGroup === 'function';
             mundialLayer = clusterAvail ? L.markerClusterGroup({ maxClusterRadius: 40 }) : L.layerGroup();
 
-            const gbifReq = fetch('https://api.gbif.org/v1/occurrence/search?taxonKey=' + taxonKey + '&country=' + p.iso + '&hasCoordinate=true&limit=250')
+            const gbifReq = fetch('https://api.gbif.org/v1/occurrence/search?taxonKey=' + taxonKey + '&country=' + p.iso + (p.bbox ? ('&decimalLatitude=' + p.bbox[0] + ',' + p.bbox[2] + '&decimalLongitude=' + p.bbox[1] + ',' + p.bbox[3]) : '') + '&hasCoordinate=true&limit=250')
               .then(r => r.json()).catch(() => ({ results: [] }));
 
-            const inatReq = Promise.all([getInatTaxonId(), resolveInatPlace(p)])
+            const inatReq = Promise.all([getInatTaxonId(), p.bbox ? Promise.resolve('bbox') : resolveInatPlace(p)])
               .then(([taxonId, placeId]) => {
                 if (!taxonId || !placeId) return { results: [] };
-                return fetch('https://api.inaturalist.org/v1/observations?taxon_id=' + taxonId + '&place_id=' + placeId + '&geo=true&per_page=200')
+                const inatUrl = p.bbox
+                  ? ('https://api.inaturalist.org/v1/observations?taxon_id=' + taxonId + '&swlat=' + p.bbox[0] + '&swlng=' + p.bbox[1] + '&nelat=' + p.bbox[2] + '&nelng=' + p.bbox[3] + '&geo=true&per_page=200')
+                  : ('https://api.inaturalist.org/v1/observations?taxon_id=' + taxonId + '&place_id=' + placeId + '&geo=true&per_page=200');
+                return fetch(inatUrl)
                   .then(r => r.json());
               }).catch(() => ({ results: [] }));
 
