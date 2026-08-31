@@ -5520,7 +5520,7 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
         btn.addEventListener('click', () => { marcarActivo(btn); cargarPais(p); });
         tabsEl.appendChild(btn);
         botones.push(btn);
-        if (idx === 2) { marcarActivo(btn); cargarPais(p); }
+        if (p.iso === 'MX' && !p.bbox) { marcarActivo(btn); cargarPais(p); }
       });
 
       setTimeout(() => mapaMundial.invalidateSize(), 200);
