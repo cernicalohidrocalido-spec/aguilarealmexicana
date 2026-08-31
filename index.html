@@ -2942,7 +2942,18 @@
       <h3 style="font-family:'Poppins',sans-serif; font-size:1.05rem; color:var(--brown-dark); margin:1.8rem 0 0.8rem; border-bottom:2px solid var(--gold); padding-bottom:0.4rem;">🌍 Distribución Mundial Holártica</h3>
       <p style="font-size:0.9rem; line-height:1.8; color:var(--text-mid); margin-bottom:1.2rem;">El Águila real tiene distribución holártica que abarca latitudes de aproximadamente 20° a 70°N, con poblaciones dispersas más al sur. Es la rapaz diurna con distribución más amplia del mundo. Estimación global: <strong>100,000–200,000 individuos</strong> (BirdLife International). Clasificada como Preocupación Menor (LC) por la UICN a escala mundial, aunque poblaciones de África, Oriente Medio y Japón muestran declives documentados.</p>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:0.8rem; margin-bottom:1.8rem;">
+      
+    <div style="margin-bottom:1.8rem; background:var(--white); border:1px solid var(--border); border-radius:8px; padding:1.2rem;">
+      <h4 style="font-family:'Poppins'; letter-spacing:2px; font-size:0.78rem; color:var(--gold-dark); margin-bottom:1rem; font-weight:600;">DISTRIBUCION MUNDIAL POR PAIS</h4>
+      <div id="paisTabs" style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem; overflow-x:auto; padding-bottom:0.3rem;"></div>
+      <div id="mapa-mundial" style="width:100%; height:420px; border-radius:8px; border:1px solid var(--border);"></div>
+      <p id="mapa-mundial-info" style="font-size:0.8rem; color:var(--text-mid); margin-top:0.8rem;">Cargando registros...</p>
+      <p style="font-size:0.75rem; color:var(--text-mid); margin-top:0.5rem; line-height:1.5;">
+        Datos de ocurrencia agregados por <a href="https://www.gbif.org/species/search?q=Aquila%20chrysaetos" target="_blank" rel="noopener" style="color:var(--gold-dark);">GBIF.org</a> e <a href="https://www.inaturalist.org/taxa/search?q=Aquila+chrysaetos" target="_blank" rel="noopener" style="color:var(--gold-dark);">iNaturalist.org</a>, bajo licencias CC de cada observador. Las coordenadas mostradas pueden estar generalizadas por los propios usuarios o plataformas para proteger sitios sensibles; no reflejan necesariamente la ubicacion exacta del avistamiento.
+      </p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:0.8rem; margin-bottom:1.8rem;">
         <div style="background:var(--white); border-radius:4px; padding:1rem 1.2rem; border-left:3px solid #4a7c59; font-family:'Poppins',sans-serif; font-size:0.82rem;">
           <div style="font-weight:700; color:#2d5a3d; font-size:0.65rem; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:0.4rem;">Norteamérica</div>
           Alaska, Canadá y México hasta el norte de Baja California y los estados del centro. Población estimada: ~40,000 individuos en EE.UU. Las poblaciones del norte son migratorias; las del sur, residentes.</div>
@@ -5335,17 +5346,150 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
       setTimeout(() => mapaGbif.invalidateSize(), 200);
     }
 
+    
+    const PAISES_AGUILA = [
+      { label: 'Estados Unidos', iso: 'US', inat: 'United States' },
+      { label: 'Canada', iso: 'CA', inat: 'Canada' },
+      { label: 'Mexico', iso: 'MX', inat: 'Mexico' },
+      { label: 'Espana', iso: 'ES', inat: 'Spain' },
+      { label: 'Escocia (RU)', iso: 'GB', inat: 'Scotland' },
+      { label: 'Francia', iso: 'FR', inat: 'France' },
+      { label: 'Italia', iso: 'IT', inat: 'Italy' },
+      { label: 'Rusia', iso: 'RU', inat: 'Russia' },
+      { label: 'Kazajistan', iso: 'KZ', inat: 'Kazakhstan' },
+      { label: 'Mongolia', iso: 'MN', inat: 'Mongolia' },
+      { label: 'China', iso: 'CN', inat: 'China' },
+      { label: 'Japon', iso: 'JP', inat: 'Japan' },
+      { label: 'Marruecos', iso: 'MA', inat: 'Morocco' },
+      { label: 'Turquia', iso: 'TR', inat: 'Turkey' }
+    ];
+    let mapaMundial, mundialHeat, mundialLayer, inatTaxonIdPromise;
+    const inatPlaceCache = {};
+
+    function getInatTaxonId() {
+      if (!inatTaxonIdPromise) {
+        inatTaxonIdPromise = fetch('https://api.inaturalist.org/v1/taxa?q=Aquila%20chrysaetos&rank=species')
+          .then(r => r.json())
+          .then(td => {
+            const taxon = (td.results || []).find(t => /chrysaetos/i.test(t.name)) || (td.results || [])[0];
+            return taxon ? taxon.id : null;
+          })
+          .catch(() => null);
+      }
+      return inatTaxonIdPromise;
+    }
+
+    function resolveInatPlace(p) {
+      if (inatPlaceCache[p.iso] !== undefined) return Promise.resolve(inatPlaceCache[p.iso]);
+      return fetch('https://api.inaturalist.org/v1/places/autocomplete?q=' + encodeURIComponent(p.inat))
+        .then(r => r.json())
+        .then(d => {
+          const results = d.results || [];
+          const match = results.find(r => r.admin_level === 0) || results[0];
+          const id = match ? match.id : null;
+          inatPlaceCache[p.iso] = id;
+          return id;
+        })
+        .catch(() => null);
+    }
+
+    function initMapaMundial() {
+      if (mapaMundial || !document.getElementById('mapa-mundial')) return;
+      mapaMundial = L.map('mapa-mundial', { scrollWheelZoom: false, attributionControl: true, center: [20, 10], zoom: 2 });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(mapaMundial);
+
+      const tabsEl = document.getElementById('paisTabs');
+      const botones = [];
+
+      function marcarActivo(activeBtn) {
+        botones.forEach(b => { b.style.background = 'var(--white)'; b.style.color = 'var(--brown-dark)'; b.style.borderColor = 'var(--border)'; });
+        activeBtn.style.background = 'var(--gold)'; activeBtn.style.color = '#fff'; activeBtn.style.borderColor = 'var(--gold)';
+      }
+
+      function cargarPais(p) {
+        const info = document.getElementById('mapa-mundial-info');
+        info.textContent = 'Cargando registros de ' + p.label + '...';
+        if (mundialLayer) { mapaMundial.removeLayer(mundialLayer); mundialLayer = null; }
+        if (mundialHeat) { mapaMundial.removeLayer(mundialHeat); mundialHeat = null; }
+
+        fetch('https://api.gbif.org/v1/species/match?name=Aquila%20chrysaetos')
+          .then(r => r.json())
+          .then(sp => {
+            const taxonKey = sp.usageKey;
+            if (!taxonKey) return;
+            mundialHeat = L.tileLayer('https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@2x.png?srs=EPSG:3857&taxonKey=' + taxonKey + '&country=' + p.iso + '&style=classic-noborder.poly', { opacity: 0.5 });
+            mundialHeat.addTo(mapaMundial);
+
+            const clusterAvail = typeof L.markerClusterGroup === 'function';
+            mundialLayer = clusterAvail ? L.markerClusterGroup({ maxClusterRadius: 40 }) : L.layerGroup();
+
+            const gbifReq = fetch('https://api.gbif.org/v1/occurrence/search?taxonKey=' + taxonKey + '&country=' + p.iso + '&hasCoordinate=true&limit=250')
+              .then(r => r.json()).catch(() => ({ results: [] }));
+
+            const inatReq = Promise.all([getInatTaxonId(), resolveInatPlace(p)])
+              .then(([taxonId, placeId]) => {
+                if (!taxonId || !placeId) return { results: [] };
+                return fetch('https://api.inaturalist.org/v1/observations?taxon_id=' + taxonId + '&place_id=' + placeId + '&geo=true&per_page=200')
+                  .then(r => r.json());
+              }).catch(() => ({ results: [] }));
+
+            Promise.all([gbifReq, inatReq]).then(([gbifData, inatData]) => {
+              let count = 0;
+              (gbifData.results || []).forEach(o => {
+                if (!o.decimalLatitude || !o.decimalLongitude) return;
+                const fecha = o.eventDate ? o.eventDate.slice(0, 10) : 'Fecha no determinada';
+                const lugar = o.locality || o.stateProvince || p.label;
+                const m = L.circleMarker([o.decimalLatitude, o.decimalLongitude], { radius: 5, color: '#0E2A47', weight: 1, fillColor: '#B8862E', fillOpacity: 0.85 });
+                m.bindPopup('<strong>' + lugar + '</strong><br>' + fecha + '<br><span style="font-size:0.78rem;color:#64748b;">Fuente: GBIF</span><br><a href="https://www.gbif.org/occurrence/' + o.key + '" target="_blank" rel="noopener">Ver registro &rarr;</a>');
+                mundialLayer.addLayer(m); count++;
+              });
+              (inatData.results || []).forEach(o => {
+                if (!o.geojson || !o.geojson.coordinates) return;
+                const lng = o.geojson.coordinates[0], lat = o.geojson.coordinates[1];
+                const fecha = o.observed_on || 'Fecha no determinada';
+                const lugar = o.place_guess || p.label;
+                const obs = (o.user && o.user.login) ? o.user.login : 'observador anonimo';
+                const m = L.circleMarker([lat, lng], { radius: 5, color: '#0E2A47', weight: 1, fillColor: '#2f9e44', fillOpacity: 0.85 });
+                m.bindPopup('<strong>' + lugar + '</strong><br>' + fecha + '<br><span style="font-size:0.78rem;color:#64748b;">Fuente: iNaturalist &middot; ' + obs + '</span><br><a href="' + o.uri + '" target="_blank" rel="noopener">Ver observacion &rarr;</a>');
+                mundialLayer.addLayer(m); count++;
+              });
+              mundialLayer.addTo(mapaMundial);
+              info.textContent = count + ' registros encontrados en ' + p.label + ' (GBIF + iNaturalist).';
+              try {
+                const bounds = mundialLayer.getBounds ? mundialLayer.getBounds() : null;
+                if (bounds && bounds.isValid && bounds.isValid()) mapaMundial.fitBounds(bounds, { padding: [30, 30], maxZoom: 7 });
+              } catch (e) {}
+            }).catch(err => { console.error('Error cargando registros mundiales:', err); info.textContent = 'No se pudieron cargar los registros.'; });
+          })
+          .catch(err => console.error('Error resolviendo taxon GBIF:', err));
+      }
+
+      PAISES_AGUILA.forEach((p, idx) => {
+        const btn = document.createElement('button');
+        btn.textContent = p.label;
+        btn.style.cssText = "font-family:'Poppins'; font-size:0.78rem; font-weight:600; padding:0.5rem 1rem; border-radius:999px; border:1px solid var(--border); background:var(--white); color:var(--brown-dark); cursor:pointer; white-space:nowrap; flex:0 0 auto;";
+        btn.addEventListener('click', () => { marcarActivo(btn); cargarPais(p); });
+        tabsEl.appendChild(btn);
+        botones.push(btn);
+        if (idx === 2) { marcarActivo(btn); cargarPais(p); }
+      });
+
+      setTimeout(() => mapaMundial.invalidateSize(), 200);
+    }
+
     // Inicializar cuando la sección distribución sea visible (lazy)
   if ('IntersectionObserver' in window) {
     const distSec = document.getElementById('distribucion');
     if (distSec) {
       const obs = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) { initMapaAguila(); initMapaGbif(); obs.disconnect(); } });
+        entries.forEach(e => { if (e.isIntersecting) { initMapaAguila(); initMapaGbif(); initMapaMundial(); obs.disconnect(); } });
       }, { threshold: 0.15 });
       obs.observe(distSec);
     }
   } else {
-    window.addEventListener('load', () => { initMapaAguila(); initMapaGbif(); });
+    window.addEventListener('load', () => { initMapaAguila(); initMapaGbif(); initMapaMundial(); });
   }
 
   /* ====== MAPA DE TELEMETRÍA SATELITAL ====== */
