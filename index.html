@@ -5244,11 +5244,24 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
     { estado: 'Oaxaca',           parejas: 1,  lat: 17.1, lng: -96.7 }
   ];
 
+      function enableClickToZoom(map, containerId) {
+        if (!map) return;
+        var el = document.getElementById(containerId);
+        map.on('click', function () {
+          map.scrollWheelZoom.enable();
+        });
+        if (el) {
+          el.addEventListener('mouseleave', function () {
+            map.scrollWheelZoom.disable();
+          });
+        }
+      }
   let mapaAguila = null;
   function initMapaAguila() {
     if (mapaAguila || !document.getElementById('mapa-aguila')) return;
     mapaAguila = L.map('mapa-aguila', { scrollWheelZoom: false, attributionControl: true })
                   .setView([24.5, -103.5], 5);
+      enableClickToZoom(mapaAguila, 'mapa-aguila');
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap', maxZoom: 18
@@ -5281,6 +5294,7 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
     function initMapaGbif() {
       if (mapaGbif || !document.getElementById('mapa-gbif')) return;
       mapaGbif = L.map('mapa-gbif', { scrollWheelZoom: false, attributionControl: true, center: [23.6, -102.5], zoom: 5 });
+      enableClickToZoom(mapaGbif, 'mapa-gbif');
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'
       }).addTo(mapaGbif);
@@ -5398,6 +5412,7 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
     function initMapaMundial() {
       if (mapaMundial || !document.getElementById('mapa-mundial')) return;
       mapaMundial = L.map('mapa-mundial', { scrollWheelZoom: false, attributionControl: true, center: [20, 10], zoom: 2 });
+      enableClickToZoom(mapaMundial, 'mapa-mundial');
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'
       }).addTo(mapaMundial);
@@ -5500,6 +5515,7 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
     if (mapaTele || !document.getElementById('mapa-telemetria') || !window.TELEMETRIA_AVES) return;
     mapaTele = L.map('mapa-telemetria', { scrollWheelZoom: false, attributionControl: true })
                  .setView([26, -106], 5);
+      enableClickToZoom(mapaTele, 'mapa-telemetria');
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap', maxZoom: 18
     }).addTo(mapaTele);
@@ -5566,6 +5582,7 @@ window.TELEMETRIA_AVES = [{"id":"121739","color":"#E8161B","estado":"Zacatecas",
     if (mapaMigracion || !document.getElementById('mapa-migracion-leaflet')) return;
     mapaMigracion = L.map('mapa-migracion-leaflet', { scrollWheelZoom: false, attributionControl: true })
       .setView([40, -110], 4);
+      enableClickToZoom(mapaMigracion, 'mapa-migracion-leaflet');
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap', maxZoom: 12
     }).addTo(mapaMigracion);
