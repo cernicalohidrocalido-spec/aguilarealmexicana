@@ -8080,11 +8080,20 @@ window.tickerClose = function() {
   var nav = document.getElementById('mainNav');
   var btn = document.getElementById('navSecToggle');
   if (!nav || !btn) return;
+  var ticker = document.getElementById('newsTicker');
+  function syncTicker(open) {
+    if (!ticker) return;
+    ticker.style.top = nav.offsetHeight + 'px';
+    ticker.style.visibility = open ? 'hidden' : '';
+  }
   function setOpen(open) {
     nav.classList.toggle('sec-open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     btn.textContent = open ? '✕ Cerrar' : '☰ Secciones ▾';
+    syncTicker(open);
   }
+  window.addEventListener('resize', function () { syncTicker(nav.classList.contains('sec-open')); });
+  syncTicker(false);
   btn.addEventListener('click', function (e) {
     e.stopPropagation();
     setOpen(!nav.classList.contains('sec-open'));
