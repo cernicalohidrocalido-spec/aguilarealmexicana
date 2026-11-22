@@ -51,7 +51,10 @@
   <div class="card">
     <div id="aviso"></div>
 
-    <form method="post" action="contacto.php" novalidate>
+    <form method="post" action="https://formsubmit.co/luisfelipe.lozano@aguilarealmexicana.org" novalidate>
+      <input type="hidden" name="_subject" value="Nuevo mensaje desde aguilarealmexicana.org">
+      <input type="hidden" name="_next" value="https://aguilarealmexicana.org/contacto.html?estado=ok">
+      <input type="hidden" name="_template" value="table">
       <div class="campo">
         <label for="nombre">Nombre</label>
         <input id="nombre" name="nombre" type="text" maxlength="100" required autocomplete="name">
@@ -59,7 +62,7 @@
 
       <div class="campo">
         <label for="correo">Correo</label>
-        <input id="correo" name="correo" type="email" maxlength="150" required autocomplete="email">
+        <input id="correo" name="email" type="email" maxlength="150" required autocomplete="email">
       </div>
 
       <div class="campo">
@@ -81,10 +84,10 @@
         <p class="ayuda">Máximo 3,000 caracteres.</p>
       </div>
 
-      <!-- Campo trampa: no lo llenes -->
+      <!-- Campo trampa (FormSubmit lo usa como _honey): no lo llenes -->
       <div class="trampa" aria-hidden="true">
         <label for="sitio_web">No llenar</label>
-        <input id="sitio_web" name="sitio_web" type="text" tabindex="-1" autocomplete="off">
+        <input id="_honey" name="_honey" type="text" tabindex="-1" autocomplete="off">
       </div>
 
       <button class="boton" type="submit">Enviar mensaje</button>
