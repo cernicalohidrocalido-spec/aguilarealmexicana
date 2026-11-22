@@ -3,3 +3,6 @@ img/cultural/*.pptx
 img/cultural/*.pdf
 
 .wrangler/
+
+# Credenciales de correo (nunca al repositorio)
+config_correo.php
