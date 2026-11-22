@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contacto · Águila Real Mexicana</title>
+<meta name="description" content="Escríbenos para donativos, colaboración, prensa o patrocinio en la conservación del Águila Real en México.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#0e2a47;--brown:#3b2a1a;--gold:#b8862e;--gold-light:#d4a23a;--bg:#f7f4ef;--card:#ffffff;--ink:#2b2b2b;--mid:#5b5b5b;--line:#e2dccf;--ok:#2f7a4f;--err:#a33a2a}
+  :root[data-theme="dark"]{--bg:#0e1a26;--card:#15263a;--ink:#f1ece2;--mid:#b7b1a4;--line:#2a3d52}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0e1a26;--card:#15263a;--ink:#f1ece2;--mid:#b7b1a4;--line:#2a3d52}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Poppins,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  header{background:var(--navy);border-bottom:2px solid var(--gold);padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between}
+  header a{color:var(--gold-light);text-decoration:none;font-weight:700;font-size:.95rem}
+  main{max-width:640px;margin:0 auto;padding:28px 16px 64px}
+  h1{font-size:1.7rem;color:var(--brown);margin:.2rem 0 .3rem;line-height:1.25}
+  :root[data-theme="dark"] h1{color:var(--gold-light)}
+  .sub{color:var(--mid);margin:0 0 1.4rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 20px}
+  label{display:block;font-weight:600;font-size:.92rem;margin:0 0 .3rem}
+  .campo{margin-bottom:1.1rem}
+  input,select,textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.6rem .7rem}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-light);outline-offset:1px}
+  textarea{min-height:140px;resize:vertical}
+  .ayuda{font-size:.82rem;color:var(--mid);margin:.3rem 0 0}
+  .trampa{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .boton{width:100%;background:var(--gold);color:#fff;border:0;border-radius:10px;padding:.85rem 1rem;font:inherit;font-weight:700;font-size:1rem;cursor:pointer}
+  .boton:hover{background:var(--gold-light)}
+  .aviso{border-radius:10px;padding:.9rem 1rem;margin-bottom:1.2rem;font-size:.95rem}
+  .aviso.ok{background:rgba(47,122,79,.12);color:var(--ok);border:1px solid var(--ok)}
+  .aviso.error{background:rgba(163,58,42,.1);color:var(--err);border:1px solid var(--err)}
+  .privacidad{font-size:.8rem;color:var(--mid);margin-top:1rem}
+  .alt{margin-top:1.4rem;font-size:.9rem;color:var(--mid);text-align:center}
+  .alt a{color:var(--gold);font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html">← Águila Real Mexicana</a>
+  <a href="index.html#apoya">♥ Apoyar</a>
+</header>
+
+<main>
+  <h1>Escríbenos</h1>
+  <p class="sub">Donativos, colaboración, prensa o patrocinio. Te respondemos por correo.</p>
+
+  <div class="card">
+    <div id="aviso"></div>
+
+    <form method="post" action="contacto.php" novalidate>
+      <div class="campo">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" name="nombre" type="text" maxlength="100" required autocomplete="name">
+      </div>
+
+      <div class="campo">
+        <label for="correo">Correo</label>
+        <input id="correo" name="correo" type="email" maxlength="150" required autocomplete="email">
+      </div>
+
+      <div class="campo">
+        <label for="tema">Tema</label>
+        <select id="tema" name="tema" required>
+          <option value="donativo">Donativo</option>
+          <option value="memoria">Donativo en memoria o en honor</option>
+          <option value="equipo">Donación de equipo de campo</option>
+          <option value="patrocinio">Patrocinio empresarial</option>
+          <option value="colaboracion">Colaboración</option>
+          <option value="prensa">Prensa</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" name="mensaje" maxlength="3000" required></textarea>
+        <p class="ayuda">Máximo 3,000 caracteres.</p>
+      </div>
+
+      <!-- Campo trampa: no lo llenes -->
+      <div class="trampa" aria-hidden="true">
+        <label for="sitio_web">No llenar</label>
+        <input id="sitio_web" name="sitio_web" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button class="boton" type="submit">Enviar mensaje</button>
+      <p class="privacidad">Usaremos tu nombre y correo solo para responder a tu mensaje.</p>
+    </form>
+  </div>
+
+  <p class="alt">¿Prefieres escribir directamente? <a href="mailto:luisfelipe.lozano@aguilarealmexicana.org">luisfelipe.lozano@aguilarealmexicana.org</a></p>
+</main>
+
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var estado = params.get('estado');
+  var aviso = document.getElementById('aviso');
+  if (estado === 'ok') {
+    aviso.innerHTML = '<div class="aviso ok">Gracias. Recibimos tu mensaje y te responderemos pronto.</div>';
+  } else if (estado === 'error') {
+    aviso.innerHTML = '<div class="aviso error">No pudimos enviar tu mensaje. Revisa los campos e intenta de nuevo.</div>';
+  }
+  var tema = params.get('tema');
+  var select = document.getElementById('tema');
+  if (tema && select.querySelector('option[value="' + tema + '"]')) select.value = tema;
+  // Validación previa en el navegador
+  document.querySelector('form').addEventListener('submit', function (e) {
+    if (!this.checkValidity()) { e.preventDefault(); this.reportValidity(); }
+  });
+})();
+</script>
+</body>
+</html>
