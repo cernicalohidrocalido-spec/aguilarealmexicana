@@ -104,7 +104,11 @@
   var estado = params.get('estado');
   var aviso = document.getElementById('aviso');
   if (estado === 'ok') {
-    aviso.innerHTML = '<div class="aviso ok">Gracias. Recibimos tu mensaje y te responderemos pronto.</div>';
+    aviso.innerHTML = '<div class="aviso ok">Gracias. Recibimos tu mensaje y te responderemos pronto.</div>'
+      + '<p style="margin:0 0 .5rem;"><a href="contacto.html" style="color:var(--gold);font-weight:600;">Enviar otro mensaje</a></p>'
+      + '<p style="margin:0;"><a href="index.html" style="color:var(--gold);font-weight:600;">Volver al sitio</a></p>';
+    document.querySelector('form').style.display = 'none';
+    document.querySelector('.privacidad') && (document.querySelector('.privacidad').style.display = 'none');
   } else if (estado === 'error') {
     aviso.innerHTML = '<div class="aviso error">No pudimos enviar tu mensaje. Revisa los campos e intenta de nuevo.</div>';
   }
