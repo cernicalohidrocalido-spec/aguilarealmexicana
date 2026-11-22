@@ -2065,6 +2065,26 @@
   .nav-toggle.open span:nth-child(2) { opacity: 0; }
   .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+  /* ── Menú de secciones desplegable (escritorio) ── */
+  .nav-sec-toggle {
+    font-family:'Poppins',sans-serif; font-size:0.73rem; font-weight:600;
+    color:var(--gold-light); background:rgba(255,255,255,0.06);
+    border:1px solid rgba(212,162,58,0.4); border-radius:6px;
+    padding:0.32rem 0.7rem; cursor:pointer; white-space:nowrap;
+    display:inline-flex; align-items:center; gap:0.4rem;
+  }
+  .nav-sec-toggle:hover, .nav-sec-toggle:focus-visible { border-color:var(--gold-light); background:rgba(255,255,255,0.12); outline:none; }
+  #mainNav:not(.sec-open) .nav-row2 { display:none; }
+  #mainNav.sec-open .nav-row2 {
+    display:flex; max-height:calc(100vh - 50px); overflow-y:auto;
+    background:rgba(14,42,71,0.99);
+  }
+  #mainNav.sec-open .nav-line + .nav-line { flex-direction:column; align-items:stretch; padding-bottom:0.4rem; }
+  #mainNav.sec-open .nav-group a { white-space:nowrap; }
+  @media (max-width:960px) {
+    .nav-sec-toggle { display:none !important; }
+  }
+
   /* Nav compacto en pantallas medianas */
   @media (max-width: 1350px) {
     .nav-group a { padding: 0 0.55rem; font-size: 0.82rem; }
@@ -2564,6 +2584,7 @@
       <span class="nav-logo-text">Águila Real Mexicana</span>
     </a>
     <div class="nav-right">
+      <button type="button" class="nav-sec-toggle" id="navSecToggle" aria-expanded="false" aria-controls="mainNav">☰ Secciones ▾</button>
       <a href="#apoya" class="nav-apoyar">♥ Apoyar</a>
       <a href="https://chrysaetos.mx" target="_blank" rel="noopener" class="nav-chrysaetos">← Chrysaetos</a>
       <select class="lang-select" id="langSelect" aria-label="Idioma" onchange="setLang(this.value)">
@@ -8052,6 +8073,32 @@ window.tickerClose = function() {
     window.addEventListener('load', initBioacustica);
   }
 
+</script>
+<script>
+/* Menú de secciones desplegable (escritorio) */
+(function () {
+  var nav = document.getElementById('mainNav');
+  var btn = document.getElementById('navSecToggle');
+  if (!nav || !btn) return;
+  function setOpen(open) {
+    nav.classList.toggle('sec-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? '✕ Cerrar' : '☰ Secciones ▾';
+  }
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setOpen(!nav.classList.contains('sec-open'));
+  });
+  nav.querySelectorAll('.nav-row2 a').forEach(function (a) {
+    a.addEventListener('click', function () { setOpen(false); });
+  });
+  document.addEventListener('click', function (e) {
+    if (nav.classList.contains('sec-open') && !nav.contains(e.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setOpen(false);
+  });
+})();
 </script>
 </body>
 </html>
