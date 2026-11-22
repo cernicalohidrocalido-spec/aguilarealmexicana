@@ -1,0 +1,12 @@
+name = "news-proxy"
+main = "worker.js"
+compatibility_date = "2024-08-01"
+workers_dev = true
+
+[[kv_namespaces]]
+binding = "NEWS_KV"
+id = "543269e79d5943d7907d44f71070f226"
+
+[[r2_buckets]]
+binding = "NEWS_IMAGES"
+bucket_name = "news-images"
